@@ -13,7 +13,7 @@ class APIError(Exception):
 
 class CyberSafeAPI:
     def __init__(self):
-        self.base_url = os.getenv("CYBERSAFE_API_URL", "http://127.0.0.1:8000/api").rstrip("/")
+        self.base_url = os.getenv("CYBERSAFE_API_URL","https://pygame-cyber-security.onrender.com/api").rstrip("/")
         self.token = None
         self.timeout = 12
         self._session = None

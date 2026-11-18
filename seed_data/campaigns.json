@@ -1,0 +1,1688 @@
+[
+  {
+    "code": "PHISHING",
+    "title": "Phishing và lừa đảo trực tuyến",
+    "description": "Nhận diện email, SMS, QR, tệp độc hại và chiêu trò tuyển dụng giả mạo.",
+    "topic": "Phishing và lừa đảo trực tuyến",
+    "order_no": 1,
+    "scenarios": [
+      {
+        "id": "SCEN_01",
+        "code": "SCEN_01",
+        "title": "Câu 1: Email thông báo khóa tài khoản ngân hàng",
+        "body": "Bạn nhận email từ 'support@vietcombank-verify-security.com' báo tài khoản sẽ bị khóa sau 2 giờ nếu không bấm vào liên kết để xác thực mật khẩu và mã OTP.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Confidentiality (Tính Bảo Mật)",
+        "is_start": true,
+        "choices": [
+          {
+            "id": "SCEN_01_C1",
+            "code": "A",
+            "choice_text": "A. Bấm ngay vào liên kết và nhập mật khẩu cùng mã OTP để tránh bị khóa.",
+            "consequence_text": "Sai lầm! Tên miền giả mạo tinh vi. Ngân hàng không bao giờ yêu cầu nhập OTP qua liên kết email.",
+            "explanation_text": "Sai lầm! Tên miền giả mạo tinh vi. Ngân hàng không bao giờ yêu cầu nhập OTP qua liên kết email.",
+            "safety_points": 0,
+            "risk_points": 50,
+            "error_category": "OTP_DISCLOSURE",
+            "next_scenario_code": "SCEN_09"
+          },
+          {
+            "id": "SCEN_01_C2",
+            "code": "B",
+            "choice_text": "B. Kiểm tra kỹ địa chỉ người gửi, xóa email và tự mở ứng dụng ngân hàng chính thức để kiểm tra.",
+            "consequence_text": "Chính xác! Luôn truy cập qua ứng dụng hoặc website chính thức thay vì bấm link lạ.",
+            "explanation_text": "Chính xác! Luôn truy cập qua ứng dụng hoặc website chính thức thay vì bấm link lạ.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_06"
+          },
+          {
+            "id": "SCEN_01_C3",
+            "code": "C",
+            "choice_text": "C. Trả lời lại email để hỏi nhân viên ngân hàng xem thông báo này có thật không.",
+            "consequence_text": "Không nên! Việc phản hồi giúp kẻ gian xác nhận email của bạn đang hoạt động để tiếp tục tấn công.",
+            "explanation_text": "Không nên! Việc phản hồi giúp kẻ gian xác nhận email của bạn đang hoạt động để tiếp tục tấn công.",
+            "safety_points": 0,
+            "risk_points": 20,
+            "error_category": "PHISHING_LINK",
+            "next_scenario_code": "SCEN_09"
+          },
+          {
+            "id": "SCEN_01_C4",
+            "code": "D",
+            "choice_text": "D. Chuyển tiếp email này vào nhóm chat công ty để mọi người cùng bấm thử xem sao.",
+            "consequence_text": "Rất nguy hiểm! Bạn có thể vô tình khiến đồng nghiệp sập bẫy lừa đảo.",
+            "explanation_text": "Rất nguy hiểm! Bạn có thể vô tình khiến đồng nghiệp sập bẫy lừa đảo.",
+            "safety_points": 0,
+            "risk_points": 40,
+            "error_category": "PHISHING_LINK",
+            "next_scenario_code": "SCEN_06"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_06",
+        "code": "SCEN_06",
+        "title": "Câu 6: Tệp đính kèm hóa đơn dạng .zip / .exe",
+        "body": "Một khách hàng lạ gửi email đính kèm tệp 'HoaDon_ThanhToan.pdf.exe' và giục bạn mở ngay để đối chiếu công nợ.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Availability (Tính Sẵn Sàng)",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_06_C1",
+            "code": "A",
+            "choice_text": "A. Nhấp đúp mở tệp ngay vì thấy có chữ '.pdf' ở tên tệp.",
+            "consequence_text": "Nguy hiểm! Đuôi thật của tệp là '.exe' (chương trình chạy), thường chứa Ransomware mã hóa toàn bộ ổ cứng.",
+            "explanation_text": "Nguy hiểm! Đuôi thật của tệp là '.exe' (chương trình chạy), thường chứa Ransomware mã hóa toàn bộ ổ cứng.",
+            "safety_points": 0,
+            "risk_points": 70,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_14"
+          },
+          {
+            "id": "SCEN_06_C2",
+            "code": "B",
+            "choice_text": "B. Không mở tệp, kiểm tra định dạng đuôi tệp và liên hệ xác nhận với khách hàng qua kênh chính thức.",
+            "consequence_text": "Rất tỉnh táo! Phát hiện đuôi tệp thực thi bất thường giúp ngăn chặn mã độc tống tiền.",
+            "explanation_text": "Rất tỉnh táo! Phát hiện đuôi tệp thực thi bất thường giúp ngăn chặn mã độc tống tiền.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_09"
+          },
+          {
+            "id": "SCEN_06_C3",
+            "code": "C",
+            "choice_text": "C. Tắt phần mềm diệt virus trên máy vì sợ nó chặn nhầm tệp hóa đơn của khách.",
+            "consequence_text": "Sai lầm nghiêm trọng! Không bao giờ tắt phần mềm diệt virus để mở tệp từ nguồn không tin cậy.",
+            "explanation_text": "Sai lầm nghiêm trọng! Không bao giờ tắt phần mềm diệt virus để mở tệp từ nguồn không tin cậy.",
+            "safety_points": 0,
+            "risk_points": 60,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_14"
+          },
+          {
+            "id": "SCEN_06_C4",
+            "code": "D",
+            "choice_text": "D. Đổi tên tệp xóa chữ '.exe' đi rồi mở bằng trình đọc PDF.",
+            "consequence_text": "Tệp không mở được vì bản chất nó là file thực thi, nhưng bạn nên xóa hẳn nó thay vì giữ lại.",
+            "explanation_text": "Tệp không mở được vì bản chất nó là file thực thi, nhưng bạn nên xóa hẳn nó thay vì giữ lại.",
+            "safety_points": 0,
+            "risk_points": 10,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_09"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_09",
+        "code": "SCEN_09",
+        "title": "Câu 9: Quét mã QR dán đè ở trạm sạc / bãi gửi xe",
+        "body": "Tại bãi giữ xe công cộng, bạn thấy một mã QR thanh toán được in trên giấy dán đè lên biển bảng gốc, dẫn tới một trang web lạ yêu cầu nhập thông tin thẻ.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Confidentiality & Integrity",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_09_C1",
+            "code": "A",
+            "choice_text": "A. Quét mã và nhập số thẻ tín dụng cùng mã CVV để thanh toán nhanh.",
+            "consequence_text": "Sập bẫy Quishing! Kẻ gian thường dán đè mã QR giả để dẫn nạn nhân tới trang web đánh cắp thẻ.",
+            "explanation_text": "Sập bẫy Quishing! Kẻ gian thường dán đè mã QR giả để dẫn nạn nhân tới trang web đánh cắp thẻ.",
+            "safety_points": 0,
+            "risk_points": 60,
+            "error_category": "PHISHING_LINK",
+            "next_scenario_code": "SCEN_27"
+          },
+          {
+            "id": "SCEN_09_C2",
+            "code": "B",
+            "choice_text": "B. Kiểm tra bề mặt tem dán, xem kỹ đường link hiện ra trước khi mở và hỏi nhân viên quản lý.",
+            "consequence_text": "Rất cẩn trọng! Luôn kiểm tra tên miền đích của mã QR trước khi thực hiện giao dịch.",
+            "explanation_text": "Rất cẩn trọng! Luôn kiểm tra tên miền đích của mã QR trước khi thực hiện giao dịch.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_14"
+          },
+          {
+            "id": "SCEN_09_C3",
+            "code": "C",
+            "choice_text": "C. Quét thử bằng camera điện thoại rồi bấm mở mọi đường link hiện ra để xem giao diện.",
+            "consequence_text": "Rủi ro! Trang web độc hại có thể tự động tải mã độc hoặc khai thác lỗ hổng trình duyệt.",
+            "explanation_text": "Rủi ro! Trang web độc hại có thể tự động tải mã độc hoặc khai thác lỗ hổng trình duyệt.",
+            "safety_points": 0,
+            "risk_points": 30,
+            "error_category": "PHISHING_LINK",
+            "next_scenario_code": "SCEN_27"
+          },
+          {
+            "id": "SCEN_09_C4",
+            "code": "D",
+            "choice_text": "D. Dùng tài khoản ngân hàng phụ nhưng vẫn nhập mật khẩu ngân hàng vào trang web đó.",
+            "consequence_text": "Kẻ gian sẽ lấy được thông tin đăng nhập của bạn ngay khi bạn gõ vào trang giả mạo.",
+            "explanation_text": "Kẻ gian sẽ lấy được thông tin đăng nhập của bạn ngay khi bạn gõ vào trang giả mạo.",
+            "safety_points": 0,
+            "risk_points": 40,
+            "error_category": "WEAK_OR_REUSED_PASSWORD",
+            "next_scenario_code": "SCEN_14"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_14",
+        "code": "SCEN_14",
+        "title": "Tin nhắn SMS brandname giả mạo thông báo trúng thưởng / phạt nguội",
+        "body": "Bạn nhận tin nhắn SMS nằm chung luồng tin nhắn ngân hàng với nội dung: 'Ban co bien ban phat nguoi, truy cap http://csgt-vn-tra-cuu.xyz de xem chi tiet'.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Confidentiality (Tính Bảo Mật)",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_14_C1",
+            "code": "A",
+            "choice_text": "A. Bấm ngay vào đường link vì thấy tin nhắn nằm chung mục với tin nhắn thật.",
+            "consequence_text": "Cảnh giác! Kẻ gian dùng trạm BTS giả để phát tán SMS giả mạo brandname, tên miền '.xyz' là giả.",
+            "explanation_text": "Cảnh giác! Kẻ gian dùng trạm BTS giả để phát tán SMS giả mạo brandname, tên miền '.xyz' là giả.",
+            "safety_points": 0,
+            "risk_points": 60,
+            "error_category": "PHISHING_LINK",
+            "next_scenario_code": "SCEN_27"
+          },
+          {
+            "id": "SCEN_14_C2",
+            "code": "B",
+            "choice_text": "B. Không bấm link, tự mở trình duyệt truy cập cổng thông tin chính thức của Cục CSGT (.gov.vn).",
+            "consequence_text": "Chính xác! Trang web cơ quan nhà nước Việt Nam luôn dùng tên miền '.gov.vn'.",
+            "explanation_text": "Chính xác! Trang web cơ quan nhà nước Việt Nam luôn dùng tên miền '.gov.vn'.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": null
+          },
+          {
+            "id": "SCEN_14_C3",
+            "code": "C",
+            "choice_text": "C. Nhập biển số xe và số thẻ ngân hàng lên trang web đó để nộp phạt cho nhanh.",
+            "consequence_text": "Bạn sẽ mất toàn bộ số tiền trong thẻ ngân hàng ngay lập tức.",
+            "explanation_text": "Bạn sẽ mất toàn bộ số tiền trong thẻ ngân hàng ngay lập tức.",
+            "safety_points": 0,
+            "risk_points": 70,
+            "error_category": "UNSAFE_DATA_SHARING",
+            "next_scenario_code": "SCEN_27"
+          },
+          {
+            "id": "SCEN_14_C4",
+            "code": "D",
+            "choice_text": "D. Gửi tin nhắn SMS phản hồi lại số điện thoại đó để chửi kẻ lừa đảo.",
+            "consequence_text": "Không nên tương tác; hãy báo cáo tin nhắn rác tới tổng đài 156 hoặc 5656.",
+            "explanation_text": "Không nên tương tác; hãy báo cáo tin nhắn rác tới tổng đài 156 hoặc 5656.",
+            "safety_points": 0,
+            "risk_points": 10,
+            "error_category": "PHISHING_LINK",
+            "next_scenario_code": null
+          }
+        ]
+      },
+      {
+        "id": "SCEN_27",
+        "code": "SCEN_27",
+        "title": "Tin nhắn tuyển dụng việc nhẹ lương cao làm nhiệm vụ online",
+        "body": "Một người tự xưng là nhân sự sàn thương mại điện tử mời bạn làm cộng tác viên tại nhà: chỉ cần bấm thích sản phẩm và chuyển tiền nạp nhiệm vụ để nhận hoa hồng 20%.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Confidentiality & Integrity",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_27_C1",
+            "code": "A",
+            "choice_text": "A. Chuyển thử số tiền nhỏ làm nhiệm vụ đầu tiên vì thấy họ trả hoa hồng thật.",
+            "consequence_text": "Kịch bản quen thuộc! Kẻ gian thả mồi ở các nhiệm vụ nhỏ rồi chiếm đoạt số tiền lớn ở các nhiệm vụ sau.",
+            "explanation_text": "Kịch bản quen thuộc! Kẻ gian thả mồi ở các nhiệm vụ nhỏ rồi chiếm đoạt số tiền lớn ở các nhiệm vụ sau.",
+            "safety_points": 0,
+            "risk_points": 50,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": null
+          },
+          {
+            "id": "SCEN_27_C2",
+            "code": "B",
+            "choice_text": "B. Nhận diện đây là kịch bản lừa đảo đa cấp/nhiệm vụ, chặn liên hệ và tuyệt đối không chuyển tiền.",
+            "consequence_text": "Tỉnh táo! Không có công việc hợp pháp nào yêu cầu người lao động phải nạp tiền trước để nhận lương.",
+            "explanation_text": "Tỉnh táo! Không có công việc hợp pháp nào yêu cầu người lao động phải nạp tiền trước để nhận lương.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": null
+          },
+          {
+            "id": "SCEN_27_C3",
+            "code": "C",
+            "choice_text": "C. Tải ứng dụng đầu tư riêng do họ gửi link để rút tiền hoa hồng.",
+            "consequence_text": "Ứng dụng giả mạo do kẻ gian tự lập trình để hiển thị số dư ảo và cài mã độc vào điện thoại.",
+            "explanation_text": "Ứng dụng giả mạo do kẻ gian tự lập trình để hiển thị số dư ảo và cài mã độc vào điện thoại.",
+            "safety_points": 0,
+            "risk_points": 70,
+            "error_category": "PHISHING_LINK",
+            "next_scenario_code": null
+          },
+          {
+            "id": "SCEN_27_C4",
+            "code": "D",
+            "choice_text": "D. Cung cấp ảnh chụp hai mặt CCCD và ảnh chân dung để họ 'tạo hồ sơ nhận lương'.",
+            "consequence_text": "Dữ liệu này sẽ bị dùng để vượt qua bước xác thực eKYC mở tài khoản ngân hàng mạo danh bạn.",
+            "explanation_text": "Dữ liệu này sẽ bị dùng để vượt qua bước xác thực eKYC mở tài khoản ngân hàng mạo danh bạn.",
+            "safety_points": 0,
+            "risk_points": 60,
+            "error_category": "UNSAFE_DATA_SHARING",
+            "next_scenario_code": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "code": "NETWORK",
+    "title": "Wi-Fi, thiết bị và an toàn kết nối",
+    "description": "Bảo vệ thiết bị, kết nối mạng và xử lý sự cố an toàn.",
+    "topic": "Wi-Fi, thiết bị và an toàn kết nối",
+    "order_no": 2,
+    "scenarios": [
+      {
+        "id": "SCEN_02",
+        "code": "SCEN_02",
+        "title": "Câu 2: Điểm phát Wi-Fi miễn phí tại quán cà phê",
+        "body": "Tại quán cà phê, bạn thấy 2 mạng Wi-Fi không mật khẩu: 'Cafe_Free_Wifi' và 'Cafe_Free_5G_VIP'. Bạn đang cần chuyển khoản gấp cho đối tác.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Integrity & Confidentiality",
+        "is_start": true,
+        "choices": [
+          {
+            "id": "SCEN_02_C1",
+            "code": "A",
+            "choice_text": "A. Kết nối ngay vào 'Cafe_Free_5G_VIP' vì tốc độ cao và thực hiện chuyển khoản.",
+            "consequence_text": "Nguy hiểm! Tin tặc thường lập điểm phát Wi-Fi giả (Evil Twin) để nghe lén lưu lượng (MITM).",
+            "explanation_text": "Nguy hiểm! Tin tặc thường lập điểm phát Wi-Fi giả (Evil Twin) để nghe lén lưu lượng (MITM).",
+            "safety_points": 0,
+            "risk_points": 50,
+            "error_category": "UNSAFE_PUBLIC_WIFI",
+            "next_scenario_code": "SCEN_18"
+          },
+          {
+            "id": "SCEN_02_C2",
+            "code": "B",
+            "choice_text": "B. Tắt Wi-Fi, chuyển sang dùng dữ liệu di động 4G/5G cá nhân để giao dịch ngân hàng.",
+            "consequence_text": "Tuyệt vời! Mạng di động 4G/5G có cơ chế mã hóa riêng, an toàn hơn nhiều so với Wi-Fi công cộng.",
+            "explanation_text": "Tuyệt vời! Mạng di động 4G/5G có cơ chế mã hóa riêng, an toàn hơn nhiều so với Wi-Fi công cộng.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_05"
+          },
+          {
+            "id": "SCEN_02_C3",
+            "code": "C",
+            "choice_text": "C. Kết nối thử cả hai mạng xem mạng nào vào được web nhanh hơn thì dùng.",
+            "consequence_text": "Không an toàn! Thiết bị của bạn có thể bị quét cổng hoặc đánh cắp cookie phiên đăng nhập.",
+            "explanation_text": "Không an toàn! Thiết bị của bạn có thể bị quét cổng hoặc đánh cắp cookie phiên đăng nhập.",
+            "safety_points": 0,
+            "risk_points": 30,
+            "error_category": "UNSAFE_PUBLIC_WIFI",
+            "next_scenario_code": "SCEN_18"
+          },
+          {
+            "id": "SCEN_02_C4",
+            "code": "D",
+            "choice_text": "D. Dùng Wi-Fi miễn phí nhưng mở trình duyệt ẩn danh (Incognito) để chuyển khoản.",
+            "consequence_text": "Sai lầm! Chế độ ẩn danh chỉ không lưu lịch sử trên máy, không mã hóa dữ liệu truyền qua Wi-Fi.",
+            "explanation_text": "Sai lầm! Chế độ ẩn danh chỉ không lưu lịch sử trên máy, không mã hóa dữ liệu truyền qua Wi-Fi.",
+            "safety_points": 0,
+            "risk_points": 20,
+            "error_category": "UNSAFE_PUBLIC_WIFI",
+            "next_scenario_code": "SCEN_05"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_05",
+        "code": "SCEN_05",
+        "title": "Câu 5: Nhặt được USB lạ ở bãi đỗ xe công ty",
+        "body": "Trên đường đi làm vào văn phòng, bạn nhặt được một chiếc USB có dán nhãn 'Bảng Lương Thưởng Quý 4'.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Integrity & Availability",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_05_C1",
+            "code": "A",
+            "choice_text": "A. Cắm ngay vào máy tính công ty để xem bên trong có danh sách lương không.",
+            "consequence_text": "Sập bẫy kinh điển! Tin tặc cố tình thả USB chứa mã độc (BadUSB/Ransomware) để xâm nhập mạng nội bộ.",
+            "explanation_text": "Sập bẫy kinh điển! Tin tặc cố tình thả USB chứa mã độc (BadUSB/Ransomware) để xâm nhập mạng nội bộ.",
+            "safety_points": 0,
+            "risk_points": 70,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_23"
+          },
+          {
+            "id": "SCEN_05_C2",
+            "code": "B",
+            "choice_text": "B. Tuyệt đối không cắm vào bất kỳ máy nào, bàn giao ngay cho bộ phận IT / An ninh thông tin.",
+            "consequence_text": "Chính xác! Bộ phận IT có môi trường cách ly (Sandbox) chuyên dụng để xử lý thiết bị lạ.",
+            "explanation_text": "Chính xác! Bộ phận IT có môi trường cách ly (Sandbox) chuyên dụng để xử lý thiết bị lạ.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_18"
+          },
+          {
+            "id": "SCEN_05_C3",
+            "code": "C",
+            "choice_text": "C. Mang về nhà cắm vào máy tính cá nhân của mình để kiểm tra trước cho an toàn.",
+            "consequence_text": "Vẫn rất nguy hiểm! Máy cá nhân của bạn sẽ bị nhiễm mã độc đánh cắp dữ liệu hoặc tống tiền.",
+            "explanation_text": "Vẫn rất nguy hiểm! Máy cá nhân của bạn sẽ bị nhiễm mã độc đánh cắp dữ liệu hoặc tống tiền.",
+            "safety_points": 0,
+            "risk_points": 50,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_23"
+          },
+          {
+            "id": "SCEN_05_C4",
+            "code": "D",
+            "choice_text": "D. Cắm vào máy tính của đồng nghiệp ngồi bên cạnh để nhờ mở giúp.",
+            "consequence_text": "Hành động này sẽ lây nhiễm mã độc sang máy đồng nghiệp và lan ra toàn mạng nội bộ.",
+            "explanation_text": "Hành động này sẽ lây nhiễm mã độc sang máy đồng nghiệp và lan ra toàn mạng nội bộ.",
+            "safety_points": 0,
+            "risk_points": 60,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_18"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_18",
+        "code": "SCEN_18",
+        "title": "Sạc pin điện thoại qua cổng USB công cộng ở sân bay",
+        "body": "Điện thoại sắp hết pin ở sân bay, bạn thấy một trụ sạc chỉ có sẵn đầu dây cáp USB (không có ổ cắm điện 220V).",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Confidentiality & Integrity",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_18_C1",
+            "code": "A",
+            "choice_text": "A. Cắm thẳng cáp USB đó vào điện thoại và bấm 'Tin cậy máy tính này' (Trust) khi màn hình hỏi.",
+            "consequence_text": "Sập bẫy Juice Jacking! Cáp USB vừa truyền điện vừa truyền dữ liệu, có thể cài mã độc vào máy.",
+            "explanation_text": "Sập bẫy Juice Jacking! Cáp USB vừa truyền điện vừa truyền dữ liệu, có thể cài mã độc vào máy.",
+            "safety_points": 0,
+            "risk_points": 60,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_29"
+          },
+          {
+            "id": "SCEN_18_C2",
+            "code": "B",
+            "choice_text": "B. Dùng pin sạc dự phòng cá nhân, hoặc dùng củ sạc riêng cắm vào ổ điện 220V (hoặc USB Data Blocker).",
+            "consequence_text": "An toàn tuyệt đối! Tách biệt đường truyền dữ liệu giúp ngăn chặn mọi rủi ro qua cổng sạc.",
+            "explanation_text": "An toàn tuyệt đối! Tách biệt đường truyền dữ liệu giúp ngăn chặn mọi rủi ro qua cổng sạc.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_23"
+          },
+          {
+            "id": "SCEN_18_C3",
+            "code": "C",
+            "choice_text": "C. Cắm vào dây cáp USB công cộng và mở khóa màn hình suốt quá trình sạc.",
+            "consequence_text": "Khi màn hình mở khóa, cổng USB có quyền truy cập trực tiếp vào hệ thống tệp của điện thoại.",
+            "explanation_text": "Khi màn hình mở khóa, cổng USB có quyền truy cập trực tiếp vào hệ thống tệp của điện thoại.",
+            "safety_points": 0,
+            "risk_points": 40,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_29"
+          },
+          {
+            "id": "SCEN_18_C4",
+            "code": "D",
+            "choice_text": "D. Mượn laptop của một người lạ ngồi cạnh để cắm nhờ sạc qua cổng USB.",
+            "consequence_text": "Máy tính của người lạ có thể tự động sao lưu ảnh hoặc cài phần mềm gián điệp sang máy bạn.",
+            "explanation_text": "Máy tính của người lạ có thể tự động sao lưu ảnh hoặc cài phần mềm gián điệp sang máy bạn.",
+            "safety_points": 0,
+            "risk_points": 40,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_23"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_23",
+        "code": "SCEN_23",
+        "title": "Cấu hình bộ phát Wi-Fi (Router) mới mua tại nhà",
+        "body": "Nhà mạng vừa lắp đặt cho bạn một bộ phát Wi-Fi mới. Mật khẩu quản trị trang cấu hình (192.168.1.1) đang là 'admin / admin'.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Confidentiality & Availability",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_23_C1",
+            "code": "A",
+            "choice_text": "A. Giữ nguyên tài khoản 'admin / admin' để sau này dễ nhớ khi cần cài đặt lại.",
+            "consequence_text": "Rất nguy hiểm! Bất kỳ ai kết nối vào Wi-Fi nhà bạn đều có thể chiếm quyền điều khiển Router và đổi DNS.",
+            "explanation_text": "Rất nguy hiểm! Bất kỳ ai kết nối vào Wi-Fi nhà bạn đều có thể chiếm quyền điều khiển Router và đổi DNS.",
+            "safety_points": 0,
+            "risk_points": 50,
+            "error_category": "WEAK_OR_REUSED_PASSWORD",
+            "next_scenario_code": "SCEN_30"
+          },
+          {
+            "id": "SCEN_23_C2",
+            "code": "B",
+            "choice_text": "B. Đổi ngay mật khẩu quản trị Router thành mật khẩu mạnh, bật chuẩn mã hóa WPA2/WPA3 cho Wi-Fi.",
+            "consequence_text": "Chính xác! Bảo vệ lớp mạng biên (Router) giúp toàn bộ thiết bị trong nhà an toàn hơn.",
+            "explanation_text": "Chính xác! Bảo vệ lớp mạng biên (Router) giúp toàn bộ thiết bị trong nhà an toàn hơn.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_29"
+          },
+          {
+            "id": "SCEN_23_C3",
+            "code": "C",
+            "choice_text": "C. Tắt mật khẩu Wi-Fi để hàng xóm dùng chung cho vui và khỏi phải nhập mật khẩu.",
+            "consequence_text": "Nếu người khác dùng Wi-Fi nhà bạn để thực hiện hành vi phạm pháp, bạn sẽ là người liên đới đầu tiên.",
+            "explanation_text": "Nếu người khác dùng Wi-Fi nhà bạn để thực hiện hành vi phạm pháp, bạn sẽ là người liên đới đầu tiên.",
+            "safety_points": 0,
+            "risk_points": 60,
+            "error_category": "WEAK_OR_REUSED_PASSWORD",
+            "next_scenario_code": "SCEN_30"
+          },
+          {
+            "id": "SCEN_23_C4",
+            "code": "D",
+            "choice_text": "D. Sử dụng chuẩn mã hóa cũ WEP vì thấy nó có chữ cái ngắn gọn.",
+            "consequence_text": "Chuẩn WEP đã lỗi thời từ lâu và có thể bị bẻ khóa chỉ trong chưa đầy 1 phút.",
+            "explanation_text": "Chuẩn WEP đã lỗi thời từ lâu và có thể bị bẻ khóa chỉ trong chưa đầy 1 phút.",
+            "safety_points": 0,
+            "risk_points": 30,
+            "error_category": "UNSAFE_PUBLIC_WIFI",
+            "next_scenario_code": "SCEN_29"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_29",
+        "code": "SCEN_29",
+        "title": "Truy cập hệ thống nội bộ công ty khi đang đi du lịch",
+        "body": "Bạn đang đi công tác ở khách sạn và cần truy cập vào máy chủ cơ sở dữ liệu nội bộ của công ty để kiểm tra báo cáo.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Confidentiality & Integrity",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_29_C1",
+            "code": "A",
+            "choice_text": "A. Yêu cầu IT mở thẳng cổng Database (Port 3306/5432) ra ngoài Internet công cộng để kết nối cho tiện.",
+            "consequence_text": "Cực kỳ nguy hiểm! Cơ sở dữ liệu mở công khai sẽ bị tấn công dò mật khẩu và đánh cắp toàn bộ dữ liệu.",
+            "explanation_text": "Cực kỳ nguy hiểm! Cơ sở dữ liệu mở công khai sẽ bị tấn công dò mật khẩu và đánh cắp toàn bộ dữ liệu.",
+            "safety_points": 0,
+            "risk_points": 70,
+            "error_category": "IDENTITY_NOT_VERIFIED",
+            "next_scenario_code": "SCEN_30"
+          },
+          {
+            "id": "SCEN_29_C2",
+            "code": "B",
+            "choice_text": "B. Kết nối thông qua mạng riêng ảo của công ty (Corporate VPN) có xác thực đa yếu tố (MFA).",
+            "consequence_text": "Đúng quy chuẩn! VPN tạo đường hầm mã hóa an toàn giữa thiết bị của bạn và mạng nội bộ công ty.",
+            "explanation_text": "Đúng quy chuẩn! VPN tạo đường hầm mã hóa an toàn giữa thiết bị của bạn và mạng nội bộ công ty.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": null
+          },
+          {
+            "id": "SCEN_29_C3",
+            "code": "C",
+            "choice_text": "C. Dùng Wi-Fi khách sạn không mật khẩu và truy cập qua đường dẫn HTTP không mã hóa.",
+            "consequence_text": "Mọi dữ liệu và mật khẩu truyền qua HTTP đều ở dạng văn bản rõ, dễ dàng bị bắt gói tin.",
+            "explanation_text": "Mọi dữ liệu và mật khẩu truyền qua HTTP đều ở dạng văn bản rõ, dễ dàng bị bắt gói tin.",
+            "safety_points": 0,
+            "risk_points": 50,
+            "error_category": "WEAK_OR_REUSED_PASSWORD",
+            "next_scenario_code": "SCEN_30"
+          },
+          {
+            "id": "SCEN_29_C4",
+            "code": "D",
+            "choice_text": "D. Gửi tài khoản đăng nhập hệ thống cho người nhà ở nhà đăng nhập hộ rồi chụp ảnh màn hình gửi qua.",
+            "consequence_text": "Vi phạm nghiêm trọng quy định an toàn thông tin của tổ chức.",
+            "explanation_text": "Vi phạm nghiêm trọng quy định an toàn thông tin của tổ chức.",
+            "safety_points": 0,
+            "risk_points": 50,
+            "error_category": "UNSAFE_DATA_SHARING",
+            "next_scenario_code": null
+          }
+        ]
+      },
+      {
+        "id": "SCEN_30",
+        "code": "SCEN_30",
+        "title": "Phát hiện máy tính có dấu hiệu bị nhiễm mã độc",
+        "body": "Bạn lỡ bấm vào một tệp lạ, sau đó thấy chuột tự di chuyển và các tệp trên màn hình bắt đầu đổi đuôi lạ hàng loạt.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Availability & Integrity",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_30_C1",
+            "code": "A",
+            "choice_text": "A. Cố gắng làm việc tiếp và giấu nhẹm sự việc vì sợ bị cấp trên khiển trách.",
+            "consequence_text": "Hậu quả khôn lường! Mã độc sẽ lan qua mạng nội bộ sang toàn bộ máy chủ khác của công ty.",
+            "explanation_text": "Hậu quả khôn lường! Mã độc sẽ lan qua mạng nội bộ sang toàn bộ máy chủ khác của công ty.",
+            "safety_points": 0,
+            "risk_points": 70,
+            "error_category": "UNSAFE_PUBLIC_WIFI",
+            "next_scenario_code": null
+          },
+          {
+            "id": "SCEN_30_C2",
+            "code": "B",
+            "choice_text": "B. Ngắt kết nối mạng ngay lập tức (rút dây mạng / tắt Wi-Fi), giữ nguyên trạng thái máy và báo ngay cho đội ứng cứu sự cố (IT/SOC).",
+            "consequence_text": "Xử lý chuẩn mực ứng phó sự cố! Ngắt mạng giúp cô lập mã độc, giữ nguyên máy giúp điều tra dấu vết.",
+            "explanation_text": "Xử lý chuẩn mực ứng phó sự cố! Ngắt mạng giúp cô lập mã độc, giữ nguyên máy giúp điều tra dấu vết.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": null
+          },
+          {
+            "id": "SCEN_30_C3",
+            "code": "C",
+            "choice_text": "C. Cắm ngay ổ cứng di động chứa bản sao lưu vào máy để copy dữ liệu ra ngoài.",
+            "consequence_text": "Mã độc tống tiền sẽ mã hóa luôn cả ổ cứng di động sao lưu của bạn!",
+            "explanation_text": "Mã độc tống tiền sẽ mã hóa luôn cả ổ cứng di động sao lưu của bạn!",
+            "safety_points": 0,
+            "risk_points": 60,
+            "error_category": "UNSAFE_DATA_SHARING",
+            "next_scenario_code": null
+          },
+          {
+            "id": "SCEN_30_C4",
+            "code": "D",
+            "choice_text": "D. Gửi tệp mã độc đó qua email cho đồng nghiệp hỏi xem máy họ có bị giống mình không.",
+            "consequence_text": "Tuyệt đối không gửi tệp nghi nhiễm mã độc cho người khác.",
+            "explanation_text": "Tuyệt đối không gửi tệp nghi nhiễm mã độc cho người khác.",
+            "safety_points": 0,
+            "risk_points": 60,
+            "error_category": "PHISHING_LINK",
+            "next_scenario_code": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "code": "ACCOUNT",
+    "title": "Tài khoản, mật khẩu và kiểm soát truy cập",
+    "description": "Bảo vệ danh tính số, mật khẩu, phiên đăng nhập và quyền ứng dụng.",
+    "topic": "Tài khoản, mật khẩu và kiểm soát truy cập",
+    "order_no": 3,
+    "scenarios": [
+      {
+        "id": "SCEN_04",
+        "code": "SCEN_04",
+        "title": "Câu 4: Sử dụng lại mật khẩu cho nhiều tài khoản",
+        "body": "Bạn vừa được cấp tài khoản hệ thống nội bộ công ty. Để dễ nhớ, bạn định dùng lại mật khẩu đang sử dụng cho Facebook và Gmail cá nhân.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Confidentiality (Tính Bảo Mật)",
+        "is_start": true,
+        "choices": [
+          {
+            "id": "SCEN_04_C1",
+            "code": "A",
+            "choice_text": "A. Dùng chung một mật khẩu cho tất cả tài khoản để khỏi phải ghi nhớ nhiều.",
+            "consequence_text": "Rủi ro lớn! Nếu một dịch vụ bị rò rỉ dữ liệu, tin tặc sẽ dùng mật khẩu đó để chiếm toàn bộ tài khoản khác.",
+            "explanation_text": "Rủi ro lớn! Nếu một dịch vụ bị rò rỉ dữ liệu, tin tặc sẽ dùng mật khẩu đó để chiếm toàn bộ tài khoản khác.",
+            "safety_points": 0,
+            "risk_points": 40,
+            "error_category": "WEAK_OR_REUSED_PASSWORD",
+            "next_scenario_code": "SCEN_08"
+          },
+          {
+            "id": "SCEN_04_C2",
+            "code": "B",
+            "choice_text": "B. Tạo mật khẩu mạnh độc nhất, lưu vào Trình quản lý mật khẩu và bật xác thực 2 lớp (2FA).",
+            "consequence_text": "Chuẩn bảo mật! Mật khẩu riêng biệt kết hợp 2FA ngăn chặn gần như tuyệt đối nguy cơ chiếm đoạt.",
+            "explanation_text": "Chuẩn bảo mật! Mật khẩu riêng biệt kết hợp 2FA ngăn chặn gần như tuyệt đối nguy cơ chiếm đoạt.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_07"
+          },
+          {
+            "id": "SCEN_04_C3",
+            "code": "C",
+            "choice_text": "C. Dùng mật khẩu cũ nhưng thêm số '123' hoặc năm sinh vào cuối cho khác đi.",
+            "consequence_text": "Quá yếu! Các công cụ dò mật khẩu tự động dễ dàng đoán ra các biến thể thêm số đơn giản.",
+            "explanation_text": "Quá yếu! Các công cụ dò mật khẩu tự động dễ dàng đoán ra các biến thể thêm số đơn giản.",
+            "safety_points": 0,
+            "risk_points": 20,
+            "error_category": "WEAK_OR_REUSED_PASSWORD",
+            "next_scenario_code": "SCEN_08"
+          },
+          {
+            "id": "SCEN_04_C4",
+            "code": "D",
+            "choice_text": "D. Ghi mật khẩu ra giấy nhớ (Sticky Note) rồi dán ngay lên cạnh màn hình máy tính.",
+            "consequence_text": "Mất an toàn vật lý! Bất kỳ ai đi ngang qua bàn làm việc cũng có thể nhìn thấy mật khẩu của bạn.",
+            "explanation_text": "Mất an toàn vật lý! Bất kỳ ai đi ngang qua bàn làm việc cũng có thể nhìn thấy mật khẩu của bạn.",
+            "safety_points": 0,
+            "risk_points": 30,
+            "error_category": "WEAK_OR_REUSED_PASSWORD",
+            "next_scenario_code": "SCEN_07"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_07",
+        "code": "SCEN_07",
+        "title": "Câu 7: Nhận thông báo duyệt đăng nhập lạ (MFA Fatigue)",
+        "body": "Lúc 1 giờ sáng, điện thoại bạn liên tục hiện thông báo yêu cầu bấm 'Chấp thuận' (Approve) đăng nhập tài khoản công ty dù bạn đang ngủ.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Confidentiality (Tính Bảo Mật)",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_07_C1",
+            "code": "A",
+            "choice_text": "A. Bấm 'Chấp thuận' cho đỡ phiền để tắt tiếng chuông thông báo.",
+            "consequence_text": "Mắc bẫy! Kẻ gian đã có mật khẩu của bạn và đang spam thông báo chờ bạn bấm nhầm chấp thuận.",
+            "explanation_text": "Mắc bẫy! Kẻ gian đã có mật khẩu của bạn và đang spam thông báo chờ bạn bấm nhầm chấp thuận.",
+            "safety_points": 0,
+            "risk_points": 70,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_11"
+          },
+          {
+            "id": "SCEN_07_C2",
+            "code": "B",
+            "choice_text": "B. Bấm 'Từ chối' (Deny), đổi ngay mật khẩu tài khoản và báo cáo sự cố cho bộ phận IT.",
+            "consequence_text": "Xử lý chuẩn xác! Thông báo lạ chứng tỏ mật khẩu của bạn đã bị lộ và cần đổi ngay lập tức.",
+            "explanation_text": "Xử lý chuẩn xác! Thông báo lạ chứng tỏ mật khẩu của bạn đã bị lộ và cần đổi ngay lập tức.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_08"
+          },
+          {
+            "id": "SCEN_07_C3",
+            "code": "C",
+            "choice_text": "C. Tắt nguồn điện thoại đi ngủ tiếp, sáng mai tính sau.",
+            "consequence_text": "Chưa đủ an toàn! Kẻ gian vẫn đang nắm mật khẩu của bạn và có thể tiếp tục tìm cách tấn công.",
+            "explanation_text": "Chưa đủ an toàn! Kẻ gian vẫn đang nắm mật khẩu của bạn và có thể tiếp tục tìm cách tấn công.",
+            "safety_points": 0,
+            "risk_points": 20,
+            "error_category": "WEAK_OR_REUSED_PASSWORD",
+            "next_scenario_code": "SCEN_11"
+          },
+          {
+            "id": "SCEN_07_C4",
+            "code": "D",
+            "choice_text": "D. Gỡ bỏ ứng dụng xác thực 2FA để không bị làm phiền vào ban đêm.",
+            "consequence_text": "Tự mở cửa cho kẻ trộm! Gỡ 2FA sẽ khiến kẻ gian đăng nhập thẳng vào tài khoản bằng mật khẩu đã lộ.",
+            "explanation_text": "Tự mở cửa cho kẻ trộm! Gỡ 2FA sẽ khiến kẻ gian đăng nhập thẳng vào tài khoản bằng mật khẩu đã lộ.",
+            "safety_points": 0,
+            "risk_points": 60,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_08"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_08",
+        "code": "SCEN_08",
+        "title": "Câu 8: Tin nhắn mượn tiền từ tài khoản Facebook người thân",
+        "body": "Tài khoản Facebook của người thân nhắn tin hỏi mượn gấp 5 triệu đồng và gửi số tài khoản ngân hàng mang tên một người lạ.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Confidentiality & Integrity",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_08_C1",
+            "code": "A",
+            "choice_text": "A. Chuyển khoản ngay vì nghĩ người thân đang gặp chuyện khẩn cấp.",
+            "consequence_text": "Mất tiền oan! Kẻ gian thường chiếm quyền Facebook rồi nhắn tin mượn tiền hàng loạt danh sách bạn bè.",
+            "explanation_text": "Mất tiền oan! Kẻ gian thường chiếm quyền Facebook rồi nhắn tin mượn tiền hàng loạt danh sách bạn bè.",
+            "safety_points": 0,
+            "risk_points": 60,
+            "error_category": "UNSAFE_PUBLIC_WIFI",
+            "next_scenario_code": "SCEN_15"
+          },
+          {
+            "id": "SCEN_08_C2",
+            "code": "B",
+            "choice_text": "B. Gọi điện thoại trực tiếp qua số di động (không gọi qua Messenger) để xác nhận giọng nói.",
+            "consequence_text": "Chính xác! Xác minh qua cuộc gọi di động truyền thống là cách chắc chắn nhất.",
+            "explanation_text": "Chính xác! Xác minh qua cuộc gọi di động truyền thống là cách chắc chắn nhất.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_11"
+          },
+          {
+            "id": "SCEN_08_C3",
+            "code": "C",
+            "choice_text": "C. Nhắn tin hỏi lại trên chính khung chat Messenger đó: 'Có đúng là bạn không?'.",
+            "consequence_text": "Vô ích! Kẻ gian đang cầm tài khoản đó nên chắc chắn sẽ trả lời 'Đúng là mình đây'.",
+            "explanation_text": "Vô ích! Kẻ gian đang cầm tài khoản đó nên chắc chắn sẽ trả lời 'Đúng là mình đây'.",
+            "safety_points": 0,
+            "risk_points": 30,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_15"
+          },
+          {
+            "id": "SCEN_08_C4",
+            "code": "D",
+            "choice_text": "D. Chuyển trước 1 triệu đồng xem họ có nhận được không rồi mới chuyển tiếp.",
+            "consequence_text": "Vẫn mất 1 triệu đồng! Không chuyển bất kỳ khoản nào khi chưa xác minh qua kênh độc lập.",
+            "explanation_text": "Vẫn mất 1 triệu đồng! Không chuyển bất kỳ khoản nào khi chưa xác minh qua kênh độc lập.",
+            "safety_points": 0,
+            "risk_points": 40,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_11"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_11",
+        "code": "SCEN_11",
+        "title": "Thông báo cập nhật bản vá bảo mật hệ điều hành",
+        "body": "Windows / macOS thông báo có bản cập nhật bảo mật quan trọng (Security Patch), nhưng bạn đang bận làm việc.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Integrity & Availability",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_11_C1",
+            "code": "A",
+            "choice_text": "A. Tắt vĩnh viễn dịch vụ cập nhật (Windows Update) để máy không bao giờ khởi động lại.",
+            "consequence_text": "Cực kỳ nguy hiểm! Tin tặc thường khai thác các lỗ hổng đã công bố trên những máy chưa cập nhật.",
+            "explanation_text": "Cực kỳ nguy hiểm! Tin tặc thường khai thác các lỗ hổng đã công bố trên những máy chưa cập nhật.",
+            "safety_points": 0,
+            "risk_points": 50,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_16"
+          },
+          {
+            "id": "SCEN_11_C2",
+            "code": "B",
+            "choice_text": "B. Hẹn giờ cập nhật vào cuối ngày làm việc (ngoài giờ) và tiến hành khởi động lại để vá lỗi.",
+            "consequence_text": "Hợp lý và an toàn! Vừa không gián đoạn công việc, vừa đảm bảo hệ thống được vá lỗi kịp thời.",
+            "explanation_text": "Hợp lý và an toàn! Vừa không gián đoạn công việc, vừa đảm bảo hệ thống được vá lỗi kịp thời.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_15"
+          },
+          {
+            "id": "SCEN_11_C3",
+            "code": "C",
+            "choice_text": "C. Bấm 'Nhắc lại sau' liên tục trong suốt 6 tháng liền.",
+            "consequence_text": "Thiết bị của bạn sẽ tồn tại hàng loạt lỗ hổng đã biết (Known Vulnerabilities).",
+            "explanation_text": "Thiết bị của bạn sẽ tồn tại hàng loạt lỗ hổng đã biết (Known Vulnerabilities).",
+            "safety_points": 0,
+            "risk_points": 30,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_16"
+          },
+          {
+            "id": "SCEN_11_C4",
+            "code": "D",
+            "choice_text": "D. Tải các bản 'Crack / Patch' trôi nổi trên mạng về chạy thay cho cập nhật chính hãng.",
+            "consequence_text": "Phần lớn công cụ crack đều được cấy sẵn Trojan hoặc phần mềm đào tiền ảo ngầm.",
+            "explanation_text": "Phần lớn công cụ crack đều được cấy sẵn Trojan hoặc phần mềm đào tiền ảo ngầm.",
+            "safety_points": 0,
+            "risk_points": 60,
+            "error_category": "UNSAFE_PUBLIC_WIFI",
+            "next_scenario_code": "SCEN_15"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_15",
+        "code": "SCEN_15",
+        "title": "Cảnh báo chứng chỉ bảo mật SSL/HTTPS không hợp lệ",
+        "body": "Khi truy cập một trang web giao dịch, trình duyệt hiện màn hình đỏ cảnh báo: 'Kết nối của bạn không phải là kết nối riêng tư (NET::ERR_CERT_AUTHORITY_INVALID)'.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Integrity & Confidentiality",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_15_C1",
+            "code": "A",
+            "choice_text": "A. Bấm 'Nâng cao -> Tiếp tục truy cập (không an toàn)' để vào trang web bằng được.",
+            "consequence_text": "Nguy hiểm! Cảnh báo này thường xuất hiện khi bạn đang bị tấn công xen giữa (MITM) hoặc web giả.",
+            "explanation_text": "Nguy hiểm! Cảnh báo này thường xuất hiện khi bạn đang bị tấn công xen giữa (MITM) hoặc web giả.",
+            "safety_points": 0,
+            "risk_points": 50,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_20"
+          },
+          {
+            "id": "SCEN_15_C2",
+            "code": "B",
+            "choice_text": "B. Dừng truy cập ngay lập tức, kiểm tra lại đường truyền mạng và tên miền trang web.",
+            "consequence_text": "Đúng đắn! Không bao giờ vượt qua cảnh báo chứng chỉ bảo mật trên các trang yêu cầu đăng nhập.",
+            "explanation_text": "Đúng đắn! Không bao giờ vượt qua cảnh báo chứng chỉ bảo mật trên các trang yêu cầu đăng nhập.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_16"
+          },
+          {
+            "id": "SCEN_15_C3",
+            "code": "C",
+            "choice_text": "C. Tắt tường lửa (Firewall) trên máy tính để trình duyệt không hiện cảnh báo nữa.",
+            "consequence_text": "Sai hoàn toàn! Tắt tường lửa khiến máy tính phơi bày trước mọi cuộc tấn công mạng.",
+            "explanation_text": "Sai hoàn toàn! Tắt tường lửa khiến máy tính phơi bày trước mọi cuộc tấn công mạng.",
+            "safety_points": 0,
+            "risk_points": 60,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_20"
+          },
+          {
+            "id": "SCEN_15_C4",
+            "code": "D",
+            "choice_text": "D. Đổi sang trình duyệt khác cũ hơn để không bị chặn cảnh báo.",
+            "consequence_text": "Trình duyệt cũ thiếu các cơ chế bảo vệ hiện đại, khiến bạn dễ bị khai thác lỗ hổng hơn.",
+            "explanation_text": "Trình duyệt cũ thiếu các cơ chế bảo vệ hiện đại, khiến bạn dễ bị khai thác lỗ hổng hơn.",
+            "safety_points": 0,
+            "risk_points": 40,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_16"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_16",
+        "code": "SCEN_16",
+        "title": "Ứng dụng chỉnh sửa ảnh đòi quyền đọc tin nhắn SMS & Danh bạ",
+        "body": "Bạn vừa cài một ứng dụng ghép ảnh miễn phí trên điện thoại. Khi mở lên, ứng dụng yêu cầu cấp quyền truy cập Tin nhắn SMS, Nhật ký cuộc gọi và Danh bạ.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Confidentiality (Tính Bảo Mật)",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_16_C1",
+            "code": "A",
+            "choice_text": "A. Bấm 'Cho phép tất cả' cho nhanh để vào chỉnh ảnh.",
+            "consequence_text": "Rủi ro lớn! Ứng dụng chỉnh ảnh không cần đọc SMS (nơi chứa mã OTP) hay danh bạ của bạn.",
+            "explanation_text": "Rủi ro lớn! Ứng dụng chỉnh ảnh không cần đọc SMS (nơi chứa mã OTP) hay danh bạ của bạn.",
+            "safety_points": 0,
+            "risk_points": 50,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_24"
+          },
+          {
+            "id": "SCEN_16_C2",
+            "code": "B",
+            "choice_text": "B. Từ chối các quyền vô lý này, chỉ cấp quyền truy cập Ảnh/Thư viện hoặc gỡ bỏ ứng dụng.",
+            "consequence_text": "Chuẩn nguyên tắc đặc quyền tối thiểu (Least Privilege)! Chỉ cấp đúng quyền cần thiết.",
+            "explanation_text": "Chuẩn nguyên tắc đặc quyền tối thiểu (Least Privilege)! Chỉ cấp đúng quyền cần thiết.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_20"
+          },
+          {
+            "id": "SCEN_16_C3",
+            "code": "C",
+            "choice_text": "C. Cho phép tạm thời rồi để nguyên như vậy dùng hàng tháng trời.",
+            "consequence_text": "Trong thời gian đó ứng dụng có thể âm thầm thu thập toàn bộ danh bạ và tin nhắn gửi về máy chủ lạ.",
+            "explanation_text": "Trong thời gian đó ứng dụng có thể âm thầm thu thập toàn bộ danh bạ và tin nhắn gửi về máy chủ lạ.",
+            "safety_points": 0,
+            "risk_points": 30,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_24"
+          },
+          {
+            "id": "SCEN_16_C4",
+            "code": "D",
+            "choice_text": "D. Cấp quyền Quản trị thiết bị (Device Admin) cho ứng dụng chỉnh ảnh.",
+            "consequence_text": "Cấp quyền Device Admin sẽ khiến bạn không thể gỡ cài đặt ứng dụng nếu nó là mã độc.",
+            "explanation_text": "Cấp quyền Device Admin sẽ khiến bạn không thể gỡ cài đặt ứng dụng nếu nó là mã độc.",
+            "safety_points": 0,
+            "risk_points": 70,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_20"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_20",
+        "code": "SCEN_20",
+        "title": "Lưu thông tin thẻ tín dụng trên trình duyệt và các web mua sắm lạ",
+        "body": "Bạn mua hàng trên một website bán đồ giảm giá mới tìm thấy trên mạng xã hội. Trình duyệt hỏi có muốn lưu thông tin thẻ thanh toán không.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Confidentiality (Tính Bảo Mật)",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_20_C1",
+            "code": "A",
+            "choice_text": "A. Lưu thông tin thẻ trên mọi website và bật tự động điền (Autofill) trên máy tính dùng chung.",
+            "consequence_text": "Rủi ro mất tiền rất cao nếu máy tính bị nhiễm mã độc đánh cắp dữ liệu trình duyệt (Infostealer).",
+            "explanation_text": "Rủi ro mất tiền rất cao nếu máy tính bị nhiễm mã độc đánh cắp dữ liệu trình duyệt (Infostealer).",
+            "safety_points": 0,
+            "risk_points": 50,
+            "error_category": "IDENTITY_NOT_VERIFIED",
+            "next_scenario_code": "SCEN_24"
+          },
+          {
+            "id": "SCEN_20_C2",
+            "code": "B",
+            "choice_text": "B. Dùng thẻ ảo (Virtual Card) có giới hạn hạn mức, không lưu thẻ trên web lạ và bật thông báo biến động số dư.",
+            "consequence_text": "Quá chuyên nghiệp! Thẻ ảo giới hạn hạn mức giúp khoanh vùng thiệt hại bằng 0 nếu web bị hack.",
+            "explanation_text": "Quá chuyên nghiệp! Thẻ ảo giới hạn hạn mức giúp khoanh vùng thiệt hại bằng 0 nếu web bị hack.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": null
+          },
+          {
+            "id": "SCEN_20_C3",
+            "code": "C",
+            "choice_text": "C. Chụp ảnh hai mặt thẻ tín dụng lưu trong album ảnh điện thoại cho tiện gõ số khi mua hàng.",
+            "consequence_text": "Nếu điện thoại bị mất hoặc đồng bộ ảnh lên đám mây bị lộ, kẻ gian có đủ thông tin để quẹt thẻ.",
+            "explanation_text": "Nếu điện thoại bị mất hoặc đồng bộ ảnh lên đám mây bị lộ, kẻ gian có đủ thông tin để quẹt thẻ.",
+            "safety_points": 0,
+            "risk_points": 60,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_24"
+          },
+          {
+            "id": "SCEN_20_C4",
+            "code": "D",
+            "choice_text": "D. Nhờ người bán hàng thanh toán hộ bằng cách gửi số thẻ và mã CVV qua tin nhắn.",
+            "consequence_text": "Mã CVV là bí mật tuyệt đối, đưa cho người khác đồng nghĩa với việc trao ví tiền của bạn cho họ.",
+            "explanation_text": "Mã CVV là bí mật tuyệt đối, đưa cho người khác đồng nghĩa với việc trao ví tiền của bạn cho họ.",
+            "safety_points": 0,
+            "risk_points": 70,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": null
+          }
+        ]
+      },
+      {
+        "id": "SCEN_24",
+        "code": "SCEN_24",
+        "title": "Bán hoặc thanh lý điện thoại / laptop cũ",
+        "body": "Bạn chuẩn bị bán lại chiếc điện thoại cũ cho một cửa hàng thu mua điện thoại.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Confidentiality (Tính Bảo Mật)",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_24_C1",
+            "code": "A",
+            "choice_text": "A. Chỉ xóa thủ công các bức ảnh nhạy cảm trong album rồi đem đi bán luôn.",
+            "consequence_text": "Rất dễ bị khôi phục! Các phần mềm phục hồi dữ liệu có thể lấy lại ảnh và tin nhắn đã xóa.",
+            "explanation_text": "Rất dễ bị khôi phục! Các phần mềm phục hồi dữ liệu có thể lấy lại ảnh và tin nhắn đã xóa.",
+            "safety_points": 0,
+            "risk_points": 60,
+            "error_category": "UNSAFE_DATA_SHARING",
+            "next_scenario_code": null
+          },
+          {
+            "id": "SCEN_24_C2",
+            "code": "B",
+            "choice_text": "B. Sao lưu dữ liệu, đăng xuất toàn bộ tài khoản (iCloud/Google), mã hóa và Khôi phục cài đặt gốc (Factory Reset).",
+            "consequence_text": "Hoàn hảo! Quy trình xóa sạch đúng chuẩn đảm bảo dữ liệu cũ không thể bị khôi phục.",
+            "explanation_text": "Hoàn hảo! Quy trình xóa sạch đúng chuẩn đảm bảo dữ liệu cũ không thể bị khôi phục.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": null
+          },
+          {
+            "id": "SCEN_24_C3",
+            "code": "C",
+            "choice_text": "C. Quên tháo thẻ SIM và thẻ nhớ microSD bên trong máy trước khi giao cho cửa hàng.",
+            "consequence_text": "Cực kỳ nguy hiểm! Người giữ SIM của bạn có thể chiếm đoạt hàng loạt tài khoản qua OTP SMS.",
+            "explanation_text": "Cực kỳ nguy hiểm! Người giữ SIM của bạn có thể chiếm đoạt hàng loạt tài khoản qua OTP SMS.",
+            "safety_points": 0,
+            "risk_points": 70,
+            "error_category": "OTP_DISCLOSURE",
+            "next_scenario_code": null
+          },
+          {
+            "id": "SCEN_24_C4",
+            "code": "D",
+            "choice_text": "D. Chỉ cần đổi hình nền và xóa ứng dụng ngân hàng là đủ an toàn.",
+            "consequence_text": "Người mua máy vẫn truy cập được vào Gmail của bạn để đặt lại mật khẩu ngân hàng.",
+            "explanation_text": "Người mua máy vẫn truy cập được vào Gmail của bạn để đặt lại mật khẩu ngân hàng.",
+            "safety_points": 0,
+            "risk_points": 50,
+            "error_category": "PHISHING_LINK",
+            "next_scenario_code": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "code": "DATA",
+    "title": "Bảo vệ dữ liệu và ứng phó social engineering",
+    "description": "Bảo vệ dữ liệu cá nhân/tổ chức và xác minh yêu cầu đáng ngờ.",
+    "topic": "Bảo vệ dữ liệu và ứng phó social engineering",
+    "order_no": 4,
+    "scenarios": [
+      {
+        "id": "SCEN_03",
+        "code": "SCEN_03",
+        "title": "Câu 3: Cuộc gọi giả danh cán bộ Công an điều tra",
+        "body": "Một số lạ gọi đến tự xưng là Công an, thông báo bạn liên quan đến đường dây rửa tiền và yêu cầu cài ứng dụng 'DichVuCong_BoCongAn.apk' ngoài Google Play để xác minh.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Availability & Confidentiality",
+        "is_start": true,
+        "choices": [
+          {
+            "id": "SCEN_03_C1",
+            "code": "A",
+            "choice_text": "A. Lo sợ, tải file .apk về cài đặt và cấp quyền Trợ năng (Accessibility) theo hướng dẫn.",
+            "consequence_text": "Mất quyền kiểm soát! Mã độc qua quyền Accessibility sẽ đọc trộm OTP và tự động rút sạch tiền.",
+            "explanation_text": "Mất quyền kiểm soát! Mã độc qua quyền Accessibility sẽ đọc trộm OTP và tự động rút sạch tiền.",
+            "safety_points": 0,
+            "risk_points": 80,
+            "error_category": "IDENTITY_NOT_VERIFIED",
+            "next_scenario_code": "SCEN_12"
+          },
+          {
+            "id": "SCEN_03_C2",
+            "code": "B",
+            "choice_text": "B. Cúp máy ngay lập tức, tuyệt đối không cài file lạ và báo cáo cho cơ quan công an địa phương.",
+            "consequence_text": "Xuất sắc! Cơ quan nhà nước không làm việc qua điện thoại và không bao giờ yêu cầu cài file APK.",
+            "explanation_text": "Xuất sắc! Cơ quan nhà nước không làm việc qua điện thoại và không bao giờ yêu cầu cài file APK.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_10"
+          },
+          {
+            "id": "SCEN_03_C3",
+            "code": "C",
+            "choice_text": "C. Đọc số CCCD và số tài khoản ngân hàng qua điện thoại để họ kiểm tra giúp cho nhanh.",
+            "consequence_text": "Sai lầm! Kẻ gian sẽ dùng thông tin này để mạo danh hoặc mở tài khoản/vay tín dụng trái phép.",
+            "explanation_text": "Sai lầm! Kẻ gian sẽ dùng thông tin này để mạo danh hoặc mở tài khoản/vay tín dụng trái phép.",
+            "safety_points": 0,
+            "risk_points": 50,
+            "error_category": "UNSAFE_DATA_SHARING",
+            "next_scenario_code": "SCEN_12"
+          },
+          {
+            "id": "SCEN_03_C4",
+            "code": "D",
+            "choice_text": "D. Tải file .apk về máy tính trước để mở thử xem bên trong có gì.",
+            "consequence_text": "Không cần thiết và tiềm ẩn rủi ro nếu vô tình kích hoạt trên trình giả lập.",
+            "explanation_text": "Không cần thiết và tiềm ẩn rủi ro nếu vô tình kích hoạt trên trình giả lập.",
+            "safety_points": 0,
+            "risk_points": 10,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_10"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_10",
+        "code": "SCEN_10",
+        "title": "Chiến lược sao lưu dữ liệu quan trọng (Backup)",
+        "body": "Bạn đang lưu trữ khóa luận tốt nghiệp và toàn bộ dữ liệu dự án quan trọng chỉ trên duy nhất ổ cứng laptop cá nhân.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Availability (Tính Sẵn Sàng)",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_10_C1",
+            "code": "A",
+            "choice_text": "A. Không cần sao lưu vì laptop mới mua rất bền, khó hỏng.",
+            "consequence_text": "Rất rủi ro! Ổ cứng có thể hỏng bất ngờ, mất máy hoặc bị mã độc tống tiền khóa toàn bộ.",
+            "explanation_text": "Rất rủi ro! Ổ cứng có thể hỏng bất ngờ, mất máy hoặc bị mã độc tống tiền khóa toàn bộ.",
+            "safety_points": 0,
+            "risk_points": 40,
+            "error_category": "UNSAFE_DATA_SHARING",
+            "next_scenario_code": "SCEN_13"
+          },
+          {
+            "id": "SCEN_10_C2",
+            "code": "B",
+            "choice_text": "B. Áp dụng quy tắc 3-2-1: Lưu 3 bản sao, trên 2 loại phương tiện khác nhau và 1 bản trên Cloud.",
+            "consequence_text": "Chuẩn mực vàng! Quy tắc 3-2-1 đảm bảo bạn luôn khôi phục được dữ liệu trong mọi thảm họa.",
+            "explanation_text": "Chuẩn mực vàng! Quy tắc 3-2-1 đảm bảo bạn luôn khôi phục được dữ liệu trong mọi thảm họa.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_12"
+          },
+          {
+            "id": "SCEN_10_C3",
+            "code": "C",
+            "choice_text": "C. Copy thêm 1 thư mục nữa ngay trên cùng ổ đĩa C của laptop đó.",
+            "consequence_text": "Không hiệu quả! Nếu ổ cứng hỏng hoặc dính Ransomware, cả hai thư mục đều mất sạch.",
+            "explanation_text": "Không hiệu quả! Nếu ổ cứng hỏng hoặc dính Ransomware, cả hai thư mục đều mất sạch.",
+            "safety_points": 0,
+            "risk_points": 20,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_13"
+          },
+          {
+            "id": "SCEN_10_C4",
+            "code": "D",
+            "choice_text": "D. Gửi toàn bộ dữ liệu mật của công ty lên một trang web chia sẻ công khai không đặt mật khẩu.",
+            "consequence_text": "Vi phạm bảo mật! Dữ liệu nhạy cảm phải được mã hóa và phân quyền truy cập chặt chẽ.",
+            "explanation_text": "Vi phạm bảo mật! Dữ liệu nhạy cảm phải được mã hóa và phân quyền truy cập chặt chẽ.",
+            "safety_points": 0,
+            "risk_points": 50,
+            "error_category": "WEAK_OR_REUSED_PASSWORD",
+            "next_scenario_code": "SCEN_12"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_12",
+        "code": "SCEN_12",
+        "title": "Nhập mã nguồn và dữ liệu khách hàng vào AI công cộng",
+        "body": "Bạn muốn nhờ một công cụ AI trực tuyến miễn phí sửa lỗi đoạn code có chứa API Key thật và danh sách email khách hàng của công ty.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Confidentiality (Tính Bảo Mật)",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_12_C1",
+            "code": "A",
+            "choice_text": "A. Dán nguyên văn toàn bộ đoạn code kèm API Key và dữ liệu khách hàng lên AI để sửa cho nhanh.",
+            "consequence_text": "Vi phạm nghiêm trọng! Dữ liệu nhập vào bản miễn phí có thể được dùng để huấn luyện mô hình.",
+            "explanation_text": "Vi phạm nghiêm trọng! Dữ liệu nhập vào bản miễn phí có thể được dùng để huấn luyện mô hình.",
+            "safety_points": 0,
+            "risk_points": 60,
+            "error_category": "UNSAFE_DATA_SHARING",
+            "next_scenario_code": "SCEN_17"
+          },
+          {
+            "id": "SCEN_12_C2",
+            "code": "B",
+            "choice_text": "B. Xóa hoặc thay thế toàn bộ API Key và dữ liệu thật bằng dữ liệu giả (Mock data) trước khi hỏi AI.",
+            "consequence_text": "Tuyệt vời! Ẩn danh hóa dữ liệu (Data Masking) giúp tận dụng AI mà vẫn bảo mật tuyệt đối.",
+            "explanation_text": "Tuyệt vời! Ẩn danh hóa dữ liệu (Data Masking) giúp tận dụng AI mà vẫn bảo mật tuyệt đối.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_13"
+          },
+          {
+            "id": "SCEN_12_C3",
+            "code": "C",
+            "choice_text": "C. Chỉ xóa tên khách hàng nhưng vẫn giữ nguyên API Key thật vì nghĩ AI không biết dùng.",
+            "consequence_text": "API Key là chìa khóa truy cập thẳng vào dịch vụ/database, tuyệt đối không đưa lên mạng.",
+            "explanation_text": "API Key là chìa khóa truy cập thẳng vào dịch vụ/database, tuyệt đối không đưa lên mạng.",
+            "safety_points": 0,
+            "risk_points": 40,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_17"
+          },
+          {
+            "id": "SCEN_12_C4",
+            "code": "D",
+            "choice_text": "D. Đăng tải cả file cấu hình `.env` lên diễn đàn hỏi đáp công cộng.",
+            "consequence_text": "Bot quét tự động của hacker sẽ thu thập `.env` chỉ trong vài giây sau khi bạn đăng.",
+            "explanation_text": "Bot quét tự động của hacker sẽ thu thập `.env` chỉ trong vài giây sau khi bạn đăng.",
+            "safety_points": 0,
+            "risk_points": 70,
+            "error_category": "UNSAFE_DATA_SHARING",
+            "next_scenario_code": "SCEN_13"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_13",
+        "code": "SCEN_13",
+        "title": "Rời khỏi bàn làm việc đi ăn trưa",
+        "body": "Đến giờ nghỉ trưa, bạn rời bàn làm việc trong 45 phút. Trên màn hình laptop đang mở sẵn email công ty và hệ thống quản trị.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Confidentiality & Integrity",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_13_C1",
+            "code": "A",
+            "choice_text": "A. Cứ để nguyên màn hình như vậy vì xung quanh toàn đồng nghiệp thân thiết.",
+            "consequence_text": "Vi phạm chính sách Clean Desk! Người lạ hoặc kẻ xấu có thể tranh thủ thao tác trên máy bạn.",
+            "explanation_text": "Vi phạm chính sách Clean Desk! Người lạ hoặc kẻ xấu có thể tranh thủ thao tác trên máy bạn.",
+            "safety_points": 0,
+            "risk_points": 40,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_19"
+          },
+          {
+            "id": "SCEN_13_C2",
+            "code": "B",
+            "choice_text": "B. Nhấn tổ hợp phím khóa màn hình ngay lập tức (Windows + L hoặc Cmd + Ctrl + Q) trước khi đứng dậy.",
+            "consequence_text": "Thói quen vàng! Khóa màn hình mất 1 giây nhưng bảo vệ toàn bộ phiên làm việc của bạn.",
+            "explanation_text": "Thói quen vàng! Khóa màn hình mất 1 giây nhưng bảo vệ toàn bộ phiên làm việc của bạn.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_17"
+          },
+          {
+            "id": "SCEN_13_C3",
+            "code": "C",
+            "choice_text": "C. Chỉ thu nhỏ cửa sổ trình duyệt xuống thanh Taskbar rồi đi ăn.",
+            "consequence_text": "Bất kỳ ai chỉ cần bấm chuột vào thanh Taskbar là mở lại được toàn bộ dữ liệu.",
+            "explanation_text": "Bất kỳ ai chỉ cần bấm chuột vào thanh Taskbar là mở lại được toàn bộ dữ liệu.",
+            "safety_points": 0,
+            "risk_points": 30,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_19"
+          },
+          {
+            "id": "SCEN_13_C4",
+            "code": "D",
+            "choice_text": "D. Nhờ một thực tập sinh mới vào ngồi trông máy hộ.",
+            "consequence_text": "Mỗi nhân viên phải tự chịu trách nhiệm với tài khoản của mình, không nhờ người khác trông hộ.",
+            "explanation_text": "Mỗi nhân viên phải tự chịu trách nhiệm với tài khoản của mình, không nhờ người khác trông hộ.",
+            "safety_points": 0,
+            "risk_points": 20,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_17"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_17",
+        "code": "SCEN_17",
+        "title": "Gửi danh sách khách hàng cho nhiều đối tác cùng lúc",
+        "body": "Bạn cần gửi email thông báo sự kiện tới 200 khách hàng VIP bên ngoài công ty.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Confidentiality (Tính Bảo Mật)",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_17_C1",
+            "code": "A",
+            "choice_text": "A. Nhập toàn bộ 200 địa chỉ email vào ô 'To' hoặc 'CC' rồi bấm gửi.",
+            "consequence_text": "Lỗi bảo mật phổ biến! Tất cả 200 khách hàng sẽ nhìn thấy email của nhau và dễ bị spam.",
+            "explanation_text": "Lỗi bảo mật phổ biến! Tất cả 200 khách hàng sẽ nhìn thấy email của nhau và dễ bị spam.",
+            "safety_points": 0,
+            "risk_points": 40,
+            "error_category": "PHISHING_LINK",
+            "next_scenario_code": "SCEN_21"
+          },
+          {
+            "id": "SCEN_17_C2",
+            "code": "B",
+            "choice_text": "B. Đặt toàn bộ danh sách khách hàng vào ô 'BCC' (hoặc dùng công cụ Email Marketing chuyên dụng).",
+            "consequence_text": "Chính xác! Dùng BCC giúp ẩn danh sách người nhận, bảo vệ quyền riêng tư của khách hàng.",
+            "explanation_text": "Chính xác! Dùng BCC giúp ẩn danh sách người nhận, bảo vệ quyền riêng tư của khách hàng.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_19"
+          },
+          {
+            "id": "SCEN_17_C3",
+            "code": "C",
+            "choice_text": "C. Đính kèm file Excel chứa đầy đủ SĐT, Email và địa chỉ của 200 khách hàng vào email gửi chung.",
+            "consequence_text": "Vi phạm nghiêm trọng quy định bảo vệ dữ liệu cá nhân (PDPD/GDPR)!",
+            "explanation_text": "Vi phạm nghiêm trọng quy định bảo vệ dữ liệu cá nhân (PDPD/GDPR)!",
+            "safety_points": 0,
+            "risk_points": 70,
+            "error_category": "PHISHING_LINK",
+            "next_scenario_code": "SCEN_21"
+          },
+          {
+            "id": "SCEN_17_C4",
+            "code": "D",
+            "choice_text": "D. Dùng email cá nhân miễn phí để gửi thay vì email tên miền công ty.",
+            "consequence_text": "Thiếu chuyên nghiệp, dễ rơi vào hòm thư rác (Spam) và không kiểm soát được dữ liệu công ty.",
+            "explanation_text": "Thiếu chuyên nghiệp, dễ rơi vào hòm thư rác (Spam) và không kiểm soát được dữ liệu công ty.",
+            "safety_points": 0,
+            "risk_points": 20,
+            "error_category": "PHISHING_LINK",
+            "next_scenario_code": "SCEN_19"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_19",
+        "code": "SCEN_19",
+        "title": "Nhân viên 'Bộ phận IT' gọi điện xin mật khẩu để nâng cấp hệ thống",
+        "body": "Có người gọi tới bàn làm việc tự xưng là nhân viên IT mới, nói cần mật khẩu đăng nhập máy tính của bạn để cài phần mềm từ xa.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Confidentiality (Tính Bảo Mật)",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_19_C1",
+            "code": "A",
+            "choice_text": "A. Đọc ngay mật khẩu cho họ vì nghĩ nhân viên IT có quyền biết mật khẩu mọi người.",
+            "consequence_text": "Nguyên tắc bất di bất dịch: Nhân viên IT thật KHÔNG BAO GIỜ hỏi mật khẩu của người dùng.",
+            "explanation_text": "Nguyên tắc bất di bất dịch: Nhân viên IT thật KHÔNG BAO GIỜ hỏi mật khẩu của người dùng.",
+            "safety_points": 0,
+            "risk_points": 60,
+            "error_category": "WEAK_OR_REUSED_PASSWORD",
+            "next_scenario_code": "SCEN_22"
+          },
+          {
+            "id": "SCEN_19_C2",
+            "code": "B",
+            "choice_text": "B. Từ chối cung cấp mật khẩu, yêu cầu họ tạo phiếu hỗ trợ (Ticket) chính thức và xác minh lại với trưởng phòng IT.",
+            "consequence_text": "Chính xác! Đây là kỹ thuật mạo danh nội bộ (Pretexting) rất phổ biến của tin tặc.",
+            "explanation_text": "Chính xác! Đây là kỹ thuật mạo danh nội bộ (Pretexting) rất phổ biến của tin tặc.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_21"
+          },
+          {
+            "id": "SCEN_19_C3",
+            "code": "C",
+            "choice_text": "C. Nhắn tin mật khẩu qua Zalo cho họ thay vì đọc qua điện thoại cho đỡ bị nghe lén.",
+            "consequence_text": "Dù gửi qua kênh nào thì việc tiết lộ mật khẩu cá nhân đều là sai lầm nghiêm trọng.",
+            "explanation_text": "Dù gửi qua kênh nào thì việc tiết lộ mật khẩu cá nhân đều là sai lầm nghiêm trọng.",
+            "safety_points": 0,
+            "risk_points": 50,
+            "error_category": "WEAK_OR_REUSED_PASSWORD",
+            "next_scenario_code": "SCEN_22"
+          },
+          {
+            "id": "SCEN_19_C4",
+            "code": "D",
+            "choice_text": "D. Đổi mật khẩu thành '123456' rồi đưa cho họ dùng tạm.",
+            "consequence_text": "Kẻ gian sẽ chiếm quyền tài khoản của bạn ngay lập tức và thực hiện hành vi phá hoại.",
+            "explanation_text": "Kẻ gian sẽ chiếm quyền tài khoản của bạn ngay lập tức và thực hiện hành vi phá hoại.",
+            "safety_points": 0,
+            "risk_points": 40,
+            "error_category": "WEAK_OR_REUSED_PASSWORD",
+            "next_scenario_code": "SCEN_21"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_21",
+        "code": "SCEN_21",
+        "title": "Chia sẻ thư mục Google Drive chứa tài liệu nội bộ",
+        "body": "Bạn cần gửi tài liệu báo cáo tài chính cho 3 thành viên trong ban giám đốc qua Google Drive.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Confidentiality (Tính Bảo Mật)",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_21_C1",
+            "code": "A",
+            "choice_text": "A. Bật chế độ 'Bất kỳ ai có đường liên kết đều có thể chỉnh sửa' rồi gửi link vào nhóm.",
+            "consequence_text": "Rất nguy hiểm! Link này có thể bị lộ ra ngoài hoặc bị công cụ tìm kiếm lập chỉ mục.",
+            "explanation_text": "Rất nguy hiểm! Link này có thể bị lộ ra ngoài hoặc bị công cụ tìm kiếm lập chỉ mục.",
+            "safety_points": 0,
+            "risk_points": 50,
+            "error_category": "PHISHING_LINK",
+            "next_scenario_code": "SCEN_25"
+          },
+          {
+            "id": "SCEN_21_C2",
+            "code": "B",
+            "choice_text": "B. Giới hạn quyền truy cập (Restricted), chỉ thêm đích danh 3 địa chỉ email của người nhận và tắt quyền tải xuống nếu cần.",
+            "consequence_text": "Chuẩn mực kiểm soát truy cập! Chỉ đúng người được chỉ định mới có thể mở tệp.",
+            "explanation_text": "Chuẩn mực kiểm soát truy cập! Chỉ đúng người được chỉ định mới có thể mở tệp.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_22"
+          },
+          {
+            "id": "SCEN_21_C3",
+            "code": "C",
+            "choice_text": "C. Để chế độ 'Bất kỳ ai có liên kết đều có thể xem' vì nghĩ chỉ xem thì không sao.",
+            "consequence_text": "Báo cáo tài chính là dữ liệu mật, chỉ cần bị xem trộm cũng đã gây thiệt hại lớn.",
+            "explanation_text": "Báo cáo tài chính là dữ liệu mật, chỉ cần bị xem trộm cũng đã gây thiệt hại lớn.",
+            "safety_points": 0,
+            "risk_points": 30,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_25"
+          },
+          {
+            "id": "SCEN_21_C4",
+            "code": "D",
+            "choice_text": "D. Đăng tải tệp lên một nhóm Facebook công khai rồi gắn thẻ (tag) 3 người đó vào.",
+            "consequence_text": "Toàn bộ người dùng Internet đều có thể tải về báo cáo tài chính của công ty bạn.",
+            "explanation_text": "Toàn bộ người dùng Internet đều có thể tải về báo cáo tài chính của công ty bạn.",
+            "safety_points": 0,
+            "risk_points": 70,
+            "error_category": "UNSAFE_PUBLIC_WIFI",
+            "next_scenario_code": "SCEN_22"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_22",
+        "code": "SCEN_22",
+        "title": "Cuộc gọi video từ 'Sếp' yêu cầu chuyển tiền gấp",
+        "body": "Bạn nhận cuộc gọi video ngắn (hình ảnh hơi mờ, giật lag) từ tài khoản của Giám đốc yêu cầu chuyển khoản gấp cho hợp đồng mật và dặn không được nói với ai.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Integrity & Confidentiality",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_22_C1",
+            "code": "A",
+            "choice_text": "A. Chuyển tiền ngay theo quy trình khẩn cấp vì đã nhìn thấy khuôn mặt Giám đốc trên video.",
+            "consequence_text": "Cảnh giác với Deepfake! Kẻ gian dùng AI ghép mặt và giọng nói để lừa đảo chuyển tiền.",
+            "explanation_text": "Cảnh giác với Deepfake! Kẻ gian dùng AI ghép mặt và giọng nói để lừa đảo chuyển tiền.",
+            "safety_points": 0,
+            "risk_points": 70,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_26"
+          },
+          {
+            "id": "SCEN_22_C2",
+            "code": "B",
+            "choice_text": "B. Tuân thủ quy trình phê duyệt tài chính của công ty, gọi lại qua số nội bộ/di động để xác nhận chéo.",
+            "consequence_text": "Xuất sắc! Không một lệnh chuyển tiền nào được phép bỏ qua quy trình xác minh đa bước.",
+            "explanation_text": "Xuất sắc! Không một lệnh chuyển tiền nào được phép bỏ qua quy trình xác minh đa bước.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_25"
+          },
+          {
+            "id": "SCEN_22_C3",
+            "code": "C",
+            "choice_text": "C. Nhắn tin hỏi lại trên chính ứng dụng vừa gọi video để xác nhận.",
+            "consequence_text": "Tài khoản đó đang do kẻ gian kiểm soát, việc nhắn lại không có giá trị xác thực.",
+            "explanation_text": "Tài khoản đó đang do kẻ gian kiểm soát, việc nhắn lại không có giá trị xác thực.",
+            "safety_points": 0,
+            "risk_points": 30,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_26"
+          },
+          {
+            "id": "SCEN_22_C4",
+            "code": "D",
+            "choice_text": "D. Chuyển trước 50% số tiền để giữ uy tín với Sếp.",
+            "consequence_text": "Kẻ gian luôn tạo áp lực khẩn cấp và bí mật để nạn nhân tự phá vỡ quy trình an toàn.",
+            "explanation_text": "Kẻ gian luôn tạo áp lực khẩn cấp và bí mật để nạn nhân tự phá vỡ quy trình an toàn.",
+            "safety_points": 0,
+            "risk_points": 50,
+            "error_category": "IDENTITY_NOT_VERIFIED",
+            "next_scenario_code": "SCEN_25"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_25",
+        "code": "SCEN_25",
+        "title": "Cài đặt Extension tải video miễn phí trên Chrome",
+        "body": "Bạn muốn tải video từ một trang web nên tìm kiếm và định cài một Extension không rõ tác giả, có rất ít lượt tải và yêu cầu quyền 'Đọc và thay đổi tất cả dữ liệu của bạn trên mọi trang web'.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Confidentiality & Integrity",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_25_C1",
+            "code": "A",
+            "choice_text": "A. Cài đặt ngay và bấm chấp nhận mọi quyền truy cập.",
+            "consequence_text": "Rất nguy hiểm! Extension độc hại có thể đọc trộm Cookie phiên đăng nhập Facebook/Email mà không cần mật khẩu.",
+            "explanation_text": "Rất nguy hiểm! Extension độc hại có thể đọc trộm Cookie phiên đăng nhập Facebook/Email mà không cần mật khẩu.",
+            "safety_points": 0,
+            "risk_points": 50,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_28"
+          },
+          {
+            "id": "SCEN_25_C2",
+            "code": "B",
+            "choice_text": "B. Không cài các Extension lạ ít đánh giá; chỉ dùng tiện ích từ nhà phát triển uy tín và rà soát quyền định kỳ.",
+            "consequence_text": "Chính xác! Tiện ích mở rộng trình duyệt có quyền rất sâu nên cần chọn lọc cực kỳ kỹ.",
+            "explanation_text": "Chính xác! Tiện ích mở rộng trình duyệt có quyền rất sâu nên cần chọn lọc cực kỳ kỹ.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": "SCEN_26"
+          },
+          {
+            "id": "SCEN_25_C3",
+            "code": "C",
+            "choice_text": "C. Cài cùng lúc 10 Extension khác nhau xem cái nào tải được thì giữ lại hết.",
+            "consequence_text": "Mỗi Extension là một bề mặt tấn công tiềm ẩn, cài tràn lan làm tăng nguy cơ rò rỉ dữ liệu.",
+            "explanation_text": "Mỗi Extension là một bề mặt tấn công tiềm ẩn, cài tràn lan làm tăng nguy cơ rò rỉ dữ liệu.",
+            "safety_points": 0,
+            "risk_points": 40,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_28"
+          },
+          {
+            "id": "SCEN_25_C4",
+            "code": "D",
+            "choice_text": "D. Tải tệp `.crx` trôi nổi từ một blog lạ rồi bật chế độ Nhà phát triển (Developer Mode) để cài ép.",
+            "consequence_text": "Các gói `.crx` ngoài cửa hàng không qua kiểm duyệt bảo mật của Google, rất dễ chứa mã độc.",
+            "explanation_text": "Các gói `.crx` ngoài cửa hàng không qua kiểm duyệt bảo mật của Google, rất dễ chứa mã độc.",
+            "safety_points": 0,
+            "risk_points": 60,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": "SCEN_26"
+          }
+        ]
+      },
+      {
+        "id": "SCEN_26",
+        "code": "SCEN_26",
+        "title": "Đẩy mã nguồn dự án lên GitHub công khai (Public Repo)",
+        "body": "Bạn vừa hoàn thành bài tập lớn kết nối cơ sở dữ liệu và chuẩn bị dùng `git push` đẩy code lên kho lưu trữ GitHub Public.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Confidentiality (Tính Bảo Mật)",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_26_C1",
+            "code": "A",
+            "choice_text": "A. Đẩy toàn bộ thư mục dự án lên, bao gồm cả chuỗi kết nối Database và mật khẩu viết cứng (Hardcode) trong code.",
+            "consequence_text": "Lỗ hổng kinh điển! Các bot quét tự động trên GitHub sẽ tìm thấy mật khẩu của bạn trong vòng vài giây.",
+            "explanation_text": "Lỗ hổng kinh điển! Các bot quét tự động trên GitHub sẽ tìm thấy mật khẩu của bạn trong vòng vài giây.",
+            "safety_points": 0,
+            "risk_points": 70,
+            "error_category": "WEAK_OR_REUSED_PASSWORD",
+            "next_scenario_code": "SCEN_28"
+          },
+          {
+            "id": "SCEN_26_C2",
+            "code": "B",
+            "choice_text": "B. Tách toàn bộ thông tin nhạy cảm vào file `.env`, thêm `.env` vào `.gitignore` và kiểm tra kỹ `git diff` trước khi push.",
+            "consequence_text": "Chuẩn quy trình DevSecOps! Luôn tách biệt cấu hình bí mật khỏi mã nguồn.",
+            "explanation_text": "Chuẩn quy trình DevSecOps! Luôn tách biệt cấu hình bí mật khỏi mã nguồn.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": null
+          },
+          {
+            "id": "SCEN_26_C3",
+            "code": "C",
+            "choice_text": "C. Lỡ push mật khẩu lên rồi thì chỉ cần tạo commit mới xóa dòng đó đi là xong.",
+            "consequence_text": "Chưa đủ! Mật khẩu vẫn nằm nguyên trong lịch sử Commit cũ; bạn bắt buộc phải thu hồi (Revoke) và đổi khóa mới.",
+            "explanation_text": "Chưa đủ! Mật khẩu vẫn nằm nguyên trong lịch sử Commit cũ; bạn bắt buộc phải thu hồi (Revoke) và đổi khóa mới.",
+            "safety_points": 0,
+            "risk_points": 40,
+            "error_category": "WEAK_OR_REUSED_PASSWORD",
+            "next_scenario_code": "SCEN_28"
+          },
+          {
+            "id": "SCEN_26_C4",
+            "code": "D",
+            "choice_text": "D. Mã hóa mật khẩu bằng Base64 rồi dán vào code công khai cho an toàn.",
+            "consequence_text": "Base64 chỉ là định dạng biểu diễn dữ liệu, ai cũng có thể giải mã ngược lại trong 1 giây.",
+            "explanation_text": "Base64 chỉ là định dạng biểu diễn dữ liệu, ai cũng có thể giải mã ngược lại trong 1 giây.",
+            "safety_points": 0,
+            "risk_points": 30,
+            "error_category": "WEAK_OR_REUSED_PASSWORD",
+            "next_scenario_code": null
+          }
+        ]
+      },
+      {
+        "id": "SCEN_28",
+        "code": "SCEN_28",
+        "title": "Xử lý tài liệu giấy in chứa thông tin mật sau khi dùng xong",
+        "body": "Bạn vừa in nhầm một bản danh sách lương nhân viên và hợp đồng có thông tin cá nhân khách hàng.",
+        "learning_objective": "Nhận diện rủi ro và lựa chọn hành vi an toàn trong tình huống thực tế.",
+        "cia_dimension": "Confidentiality (Tính Bảo Mật)",
+        "is_start": false,
+        "choices": [
+          {
+            "id": "SCEN_28_C1",
+            "code": "A",
+            "choice_text": "A. Vò sơ qua rồi ném thẳng vào thùng rác công cộng dưới hành lang.",
+            "consequence_text": "Kỹ thuật 'Bới rác' (Dumpster Diving) giúp kẻ gian thu thập được rất nhiều thông tin nội bộ giá trị.",
+            "explanation_text": "Kỹ thuật 'Bới rác' (Dumpster Diving) giúp kẻ gian thu thập được rất nhiều thông tin nội bộ giá trị.",
+            "safety_points": 0,
+            "risk_points": 40,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": null
+          },
+          {
+            "id": "SCEN_28_C2",
+            "code": "B",
+            "choice_text": "B. Đưa tài liệu vào máy hủy giấy (Paper Shredder) cắt vụn trước khi bỏ đi.",
+            "consequence_text": "Chính xác! Hủy vật lý tài liệu giấy là bước bắt buộc đối với hồ sơ chứa dữ liệu nhạy cảm.",
+            "explanation_text": "Chính xác! Hủy vật lý tài liệu giấy là bước bắt buộc đối với hồ sơ chứa dữ liệu nhạy cảm.",
+            "safety_points": 100,
+            "risk_points": 0,
+            "error_category": null,
+            "next_scenario_code": null
+          },
+          {
+            "id": "SCEN_28_C3",
+            "code": "C",
+            "choice_text": "C. Tận dụng mặt sau của tờ giấy in nhầm đó để làm giấy nháp phát cho mọi người.",
+            "consequence_text": "Tuyệt đối không tái sử dụng giấy in nhầm có chứa bảng lương hay dữ liệu khách hàng.",
+            "explanation_text": "Tuyệt đối không tái sử dụng giấy in nhầm có chứa bảng lương hay dữ liệu khách hàng.",
+            "safety_points": 0,
+            "risk_points": 50,
+            "error_category": "UNSAFE_DATA_SHARING",
+            "next_scenario_code": null
+          },
+          {
+            "id": "SCEN_28_C4",
+            "code": "D",
+            "choice_text": "D. Để chồng giấy đó ngay trên khay máy in dùng chung của văn phòng.",
+            "consequence_text": "Bất kỳ ai đến lấy tài liệu in sau bạn đều có thể đọc được toàn bộ thông tin trên đó.",
+            "explanation_text": "Bất kỳ ai đến lấy tài liệu in sau bạn đều có thể đọc được toàn bộ thông tin trên đó.",
+            "safety_points": 0,
+            "risk_points": 40,
+            "error_category": "OTHER_RISKY_ACTION",
+            "next_scenario_code": null
+          }
+        ]
+      }
+    ]
+  }
+]

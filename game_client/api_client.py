@@ -1,41 +1,139 @@
-"""Async REST client for desktop Pygame-CE and browser Pygbag runtime.
 
-Desktop: aiohttp with a bounded request timeout.
-Pygbag/WebAssembly: browser Fetch API with AbortController and timeout.
-"""
+"""CyberSafe REST client for desktop Pygame-CE and browser Pygbag."""
 
 import asyncio
 import json
 import os
 import sys
+from urllib.parse import urlencode
 
 
 class APIError(Exception):
-    """A readable API/network error suitable for showing in the game UI."""
-
-    def __init__(self, message: str, status: int = 0):
+    def __init__(self, message, status=0):
         super().__init__(message)
         self.status = status
 
 
+# Pygbag cannot safely await window.fetch() directly.
+# Start Fetch in JavaScript and let platform.jsiter step this generator.
+_BROWSER_BRIDGE = r"""
+window.CyberSafeAPIRequest = window.CyberSafeAPIRequest || {};
+
+window.CyberSafeAPIRequest.run = function* (
+    url, method, headers_json, body_json, timeout_ms
+) {
+    let result = null;
+
+    const options = {
+        method: method,
+        headers: JSON.parse(headers_json)
+    };
+
+    if (body_json !== "") {
+        options.body = body_json;
+    }
+
+    const timeout_id = window.setTimeout(function () {
+        if (result === null) {
+            result = JSON.stringify({
+                status: 0,
+                body: JSON.stringify({
+                    message: "Request timed out"
+                })
+            });
+        }
+    }, timeout_ms);
+
+    fetch(url, options)
+        .then(function (response) {
+            return response.text().then(function (body_text) {
+                if (result === null) {
+                    window.clearTimeout(timeout_id);
+
+                    result = JSON.stringify({
+                        status: response.status,
+                        body: body_text
+                    });
+                }
+            });
+        })
+        .catch(function (error) {
+            if (result === null) {
+                window.clearTimeout(timeout_id);
+
+                result = JSON.stringify({
+                    status: 0,
+                    body: JSON.stringify({
+                        message: String(error)
+                    })
+                });
+            }
+        });
+
+    // Yield control back to the browser until Fetch finishes.
+    while (result === null) {
+        yield;
+    }
+
+    yield result;
+};
+"""
+
+
 class CyberSafeAPI:
     def __init__(self):
-        default_url = (
-            "https://pygame-cyber-security.onrender.com/api"
-        )
-        self.base_url = os.getenv(
-            "CYBERSAFE_API_URL",
-            default_url,
-        ).strip().rstrip("/")
-
-        self.token = None
-        self.timeout = float(os.getenv("CYBERSAFE_API_TIMEOUT", "15"))
-        self._session = None
+        self.base_url = self._resolve_base_url().rstrip("/")
+        self.timeout = 15
         self.token = self._load_browser_token()
 
-    # -----------------------------------------------------
-    # TOKEN STORAGE
-    # -----------------------------------------------------
+        self._session = None
+        self._browser_platform = None
+        self._browser_bridge_error = None
+
+        if sys.platform == "emscripten":
+            self._install_browser_bridge()
+
+    # --------------------------------------------------------------
+    # Configuration
+    # --------------------------------------------------------------
+
+    def _resolve_base_url(self):
+        configured_url = os.getenv("CYBERSAFE_API_URL")
+
+        if configured_url:
+            return configured_url
+
+        if sys.platform == "emscripten":
+            try:
+                import platform
+
+                hostname = str(
+                    platform.window.location.hostname
+                )
+
+                if hostname in ("localhost", "127.0.0.1"):
+                    return f"http://{hostname}:8000/api"
+
+            except Exception:
+                pass
+
+        return "https://pygame-cyber-security.onrender.com/api"
+
+    def _install_browser_bridge(self):
+        try:
+            import platform
+
+            # Install the JavaScript generator once per game session.
+            platform.window.eval(_BROWSER_BRIDGE)
+
+            self._browser_platform = platform
+
+        except Exception as exc:
+            self._browser_bridge_error = str(exc)
+
+    # --------------------------------------------------------------
+    # Token
+    # --------------------------------------------------------------
 
     def _load_browser_token(self):
         if sys.platform != "emscripten":
@@ -44,10 +142,12 @@ class CyberSafeAPI:
         try:
             import platform
 
-            token = platform.window.localStorage.getItem(
+            value = platform.window.localStorage.getItem(
                 "cybersafe_access_token"
             )
-            return str(token) if token else None
+
+            return str(value) if value else None
+
         except Exception:
             return None
 
@@ -58,203 +158,181 @@ class CyberSafeAPI:
         try:
             import platform
 
-            storage = platform.window.localStorage
-
             if self.token:
-                storage.setItem(
+                platform.window.localStorage.setItem(
                     "cybersafe_access_token",
                     self.token,
                 )
             else:
-                storage.removeItem("cybersafe_access_token")
+                platform.window.localStorage.removeItem(
+                    "cybersafe_access_token"
+                )
+
         except Exception:
-            # Storage can be blocked by browser privacy settings.
-            # The current in-memory token remains usable.
             pass
 
-    def logout(self):
+    def clear_token(self):
         self.token = None
         self._save_browser_token()
+
+    # --------------------------------------------------------------
+    # Close
+    # --------------------------------------------------------------
 
     async def close(self):
         if self._session is not None and not self._session.closed:
             await self._session.close()
+
         self._session = None
 
-    # -----------------------------------------------------
-    # URL / RESPONSE HELPERS
-    # -----------------------------------------------------
+    # --------------------------------------------------------------
+    # Browser request: Pygbag / Emscripten
+    # --------------------------------------------------------------
 
-    def _build_url(self, path: str) -> str:
-        if not self.base_url:
-            raise APIError("Chưa cấu hình CYBERSAFE_API_URL")
-
-        normalized_path = "/" + str(path).lstrip("/")
-        return self.base_url + normalized_path
-
-    @staticmethod
-    def _decode_body(raw_text):
-        try:
-            return json.loads(str(raw_text))
-        except (TypeError, ValueError):
-            text = str(raw_text).strip()
-            return {"message": text or "Máy chủ trả về dữ liệu không hợp lệ"}
-
-    @staticmethod
-    def _error_message(body, status):
-        if isinstance(body, dict):
-            message = (
-                body.get("message")
-                or body.get("detail")
-                or body.get("error")
+    async def _request_browser(
+        self,
+        method,
+        url,
+        payload,
+        headers,
+    ):
+        if self._browser_platform is None:
+            detail = (
+                self._browser_bridge_error
+                or "platform.jsiter is unavailable"
             )
-
-            # FastAPI validation errors can contain a structured detail.
-            if isinstance(message, list):
-                message = "; ".join(
-                    str(item.get("msg", item))
-                    if isinstance(item, dict)
-                    else str(item)
-                    for item in message
-                )
-
-            if message:
-                return str(message)
-
-        return f"Lỗi máy chủ (HTTP {status})"
-
-    # -----------------------------------------------------
-    # PYGBAG / BROWSER FETCH
-    # -----------------------------------------------------
-
-    async def _request_browser(self, method, url, payload, headers):
-        """Send a request using the browser Fetch API.
-
-        AbortController stops the underlying fetch when the timeout expires.
-        This avoids leaving the Pygbag game waiting forever on a pending
-        browser request.
-        """
-        import platform
-
-        window = platform.window
-        controller = None
-
-        options = {
-            "method": method.upper(),
-            "mode": "cors",
-            "cache": "no-store",
-            "credentials": "omit",
-            "redirect": "follow",
-            "headers": headers,
-        }
-
-        if payload is not None:
-            options["body"] = json.dumps(
-                payload,
-                ensure_ascii=False,
-                separators=(",", ":"),
-            )
-
-        js_options = window.JSON.parse(json.dumps(options))
-
-        try:
-            controller = window.AbortController.new()
-            js_options.signal = controller.signal
-        except Exception:
-            # Older browser runtimes may not expose AbortController.
-            controller = None
-
-        try:
-            fetch_promise = window.fetch(url, js_options)
-            response = await asyncio.wait_for(
-                fetch_promise,
-                timeout=self.timeout,
-            )
-
-            status = int(response.status)
-
-            # response.text() is also asynchronous in the browser.
-            raw_text = await asyncio.wait_for(
-                response.text(),
-                timeout=self.timeout,
-            )
-
-            body = self._decode_body(raw_text)
-            return status, body
-
-        except asyncio.TimeoutError as exc:
-            if controller is not None:
-                try:
-                    controller.abort()
-                except Exception:
-                    pass
 
             raise APIError(
-                f"Máy chủ không phản hồi sau {self.timeout:g} giây. "
-                "Hãy kiểm tra kết nối hoặc thử lại."
-            ) from exc
+                f"Không khởi tạo được cầu nối Pygbag: {detail}"
+            )
 
-        except APIError:
-            raise
+        platform = self._browser_platform
+
+        body_json = (
+            json.dumps(payload, ensure_ascii=False)
+            if payload is not None
+            else ""
+        )
+
+        # Give the browser event loop a turn before starting Fetch.
+        await asyncio.sleep(0)
+
+        generator = (
+            platform.window.CyberSafeAPIRequest.run(
+                url,
+                method,
+                json.dumps(headers, ensure_ascii=False),
+                body_json,
+                int(self.timeout * 1000),
+            )
+        )
+
+        # Do not replace this with:
+        # await platform.window.fetch(url, options)
+        raw_result = await platform.jsiter(generator)
+
+        try:
+            envelope = json.loads(str(raw_result))
+
+            status = int(
+                envelope.get("status", 0)
+            )
+
+            raw_body = envelope.get("body", "")
 
         except Exception as exc:
-            error_text = str(exc)
-
-            if "AbortError" in error_text:
-                raise APIError(
-                    "Yêu cầu đã bị hủy do quá thời gian chờ."
-                ) from exc
-
-            # Fetch commonly reports CORS, DNS and TLS failures as TypeError.
             raise APIError(
-                "Không thể kết nối API từ trình duyệt. "
-                "Kiểm tra CORS trên Render, URL API và kết nối mạng. "
-                f"Chi tiết: {error_text[:180]}"
+                f"Không đọc được phản hồi từ trình duyệt: {exc}"
             ) from exc
 
-    # -----------------------------------------------------
-    # DESKTOP HTTP
-    # -----------------------------------------------------
+        try:
+            body = (
+                json.loads(raw_body)
+                if raw_body
+                else {}
+            )
 
-    async def _request_desktop(self, method, url, payload, headers):
+        except Exception:
+            body = {
+                "message": str(raw_body)
+            }
+
+        if status == 0:
+            message = (
+                body.get("message", "Không thể kết nối máy chủ")
+                if isinstance(body, dict)
+                else str(body)
+            )
+
+            raise APIError(str(message), 0)
+
+        return status, body
+
+    # --------------------------------------------------------------
+    # Desktop request: Windows / CPython
+    # --------------------------------------------------------------
+
+    async def _request_desktop(
+        self,
+        method,
+        url,
+        payload,
+        headers,
+    ):
         try:
             import aiohttp
+
         except ImportError as exc:
             raise APIError(
-                "Thiếu aiohttp. Hãy cài thư viện trong requirements.txt."
+                "Thiếu aiohttp. Hãy cài requirements.txt"
             ) from exc
 
         if self._session is None or self._session.closed:
-            timeout = aiohttp.ClientTimeout(total=self.timeout)
-            self._session = aiohttp.ClientSession(timeout=timeout)
+            timeout = aiohttp.ClientTimeout(
+                total=self.timeout
+            )
+
+            self._session = aiohttp.ClientSession(
+                timeout=timeout
+            )
 
         try:
             async with self._session.request(
-                method.upper(),
+                method,
                 url,
                 json=payload,
                 headers=headers,
             ) as response:
-                raw_text = await response.text()
-                body = self._decode_body(raw_text)
+
+                raw = await response.text()
+
+                try:
+                    body = (
+                        json.loads(raw)
+                        if raw
+                        else {}
+                    )
+
+                except Exception:
+                    body = {
+                        "message": raw
+                    }
+
                 return response.status, body
 
         except asyncio.TimeoutError as exc:
             raise APIError(
-                f"Máy chủ không phản hồi sau {self.timeout:g} giây."
+                "Máy chủ phản hồi quá thời gian"
             ) from exc
-
-        except APIError:
-            raise
 
         except Exception as exc:
             raise APIError(
-                f"Không thể kết nối máy chủ: {str(exc)[:180]}"
+                f"Không thể kết nối máy chủ: {exc}"
             ) from exc
 
-    # -----------------------------------------------------
-    # COMMON REQUEST
-    # -----------------------------------------------------
+    # --------------------------------------------------------------
+    # Common request dispatcher
+    # --------------------------------------------------------------
 
     async def request(
         self,
@@ -263,18 +341,19 @@ class CyberSafeAPI:
         payload=None,
         auth=True,
     ):
-        method = str(method).upper()
-        url = self._build_url(path)
-
         headers = {
-            "Accept": "application/json",
+            "Accept": "application/json"
         }
 
         if payload is not None:
             headers["Content-Type"] = "application/json"
 
         if auth and self.token:
-            headers["Authorization"] = f"Bearer {self.token}"
+            headers["Authorization"] = (
+                f"Bearer {self.token}"
+            )
+
+        url = f"{self.base_url}{path}"
 
         if sys.platform == "emscripten":
             status, body = await self._request_browser(
@@ -283,6 +362,7 @@ class CyberSafeAPI:
                 payload,
                 headers,
             )
+
         else:
             status, body = await self._request_desktop(
                 method,
@@ -292,94 +372,118 @@ class CyberSafeAPI:
             )
 
         if not isinstance(body, dict):
-            body = {"data": body}
+            body = {
+                "data": body
+            }
 
         if status == 401 and auth:
-            self.logout()
+            self.clear_token()
 
         if status >= 400 or body.get("success") is False:
+            message = (
+                body.get("message")
+                or body.get("detail")
+                or f"HTTP {status}"
+            )
+
             raise APIError(
-                self._error_message(body, status),
+                str(message),
                 status,
             )
 
-        # Current backend wraps successful responses as:
-        # {"success": true, "message": "...", "data": ...}
-        if "data" in body:
-            return body["data"]
+        return body.get("data", body)
 
-        # Keep compatibility with endpoints returning raw JSON.
-        return body
-
-    # -----------------------------------------------------
-    # AUTH
-    # -----------------------------------------------------
+    # --------------------------------------------------------------
+    # Authentication
+    # --------------------------------------------------------------
 
     async def login(self, email, password):
         data = await self.request(
             "POST",
             "/auth/login",
             {
-                "email": email.strip(),
+                "email": email,
                 "password": password,
             },
             auth=False,
         )
 
-        token = data.get("access_token")
-        user = data.get("user")
-
-        if not token or not isinstance(user, dict):
+        if (
+            not isinstance(data, dict)
+            or not data.get("access_token")
+        ):
             raise APIError(
-                "Đăng nhập phản hồi không đầy đủ từ máy chủ."
+                "Máy chủ không trả về access_token"
             )
 
-        self.token = str(token)
+        self.token = data["access_token"]
         self._save_browser_token()
-        return user
 
-    async def register(self, email, password, display_name):
+        return data.get("user", {})
+
+    async def register(
+        self,
+        email,
+        password,
+        display_name,
+    ):
         data = await self.request(
             "POST",
             "/auth/register",
             {
-                "email": email.strip(),
+                "email": email,
                 "password": password,
-                "display_name": display_name.strip(),
+                "display_name": display_name,
             },
             auth=False,
         )
 
-        token = data.get("access_token")
-        user = data.get("user")
-
-        if not token or not isinstance(user, dict):
+        if (
+            not isinstance(data, dict)
+            or not data.get("access_token")
+        ):
             raise APIError(
-                "Đăng ký phản hồi không đầy đủ từ máy chủ."
+                "Máy chủ không trả về access_token"
             )
 
-        self.token = str(token)
+        self.token = data["access_token"]
         self._save_browser_token()
-        return user
+
+        return data.get("user", {})
 
     async def me(self):
-        return await self.request("GET", "/auth/me")
+        return await self.request(
+            "GET",
+            "/auth/me",
+        )
 
-    # -----------------------------------------------------
-    # CAMPAIGNS / PLAYER
-    # -----------------------------------------------------
+    # --------------------------------------------------------------
+    # Player endpoints
+    # --------------------------------------------------------------
 
     async def campaigns(self):
-        return await self.request("GET", "/campaigns")
+        return await self.request(
+            "GET",
+            "/campaigns",
+        )
 
     async def dashboard(self):
-        return await self.request("GET", "/me/dashboard")
+        return await self.request(
+            "GET",
+            "/me/dashboard",
+        )
 
     async def history(self):
-        return await self.request("GET", "/me/history")
+        return await self.request(
+            "GET",
+            "/me/history",
+        )
 
     async def errors(self):
-        return await self.request("GET", "/me/errors")
+        return await self.request(
+            "GET",
+            "/me/errors",
+        )
 
     async def leaderboard(self, campaign_id):
         return await self.request(
@@ -387,15 +491,13 @@ class CyberSafeAPI:
             f"/leaderboard/{campaign_id}",
         )
 
-    # -----------------------------------------------------
-    # GAME
-    # -----------------------------------------------------
-
     async def start_session(self, campaign_id):
         return await self.request(
             "POST",
             "/game/sessions",
-            {"campaign_id": campaign_id},
+            {
+                "campaign_id": campaign_id,
+            },
         )
 
     async def get_session(self, session_id):
@@ -404,7 +506,12 @@ class CyberSafeAPI:
             f"/game/sessions/{session_id}",
         )
 
-    async def choose(self, session_id, scenario_id, choice_id):
+    async def choose(
+        self,
+        session_id,
+        scenario_id,
+        choice_id,
+    ):
         return await self.request(
             "POST",
             f"/game/sessions/{session_id}/choices",
@@ -425,4 +532,44 @@ class CyberSafeAPI:
         return await self.request(
             "GET",
             f"/game/sessions/{session_id}/result",
+        )
+
+    # --------------------------------------------------------------
+    # Admin endpoints
+    # --------------------------------------------------------------
+
+    async def admin_overview(self):
+        return await self.request(
+            "GET",
+            "/admin/analytics/overview",
+        )
+
+    async def admin_users(
+        self,
+        query="",
+        offset=0,
+        limit=50,
+    ):
+        params = urlencode({
+            "q": query,
+            "offset": max(0, int(offset)),
+            "limit": min(100, max(1, int(limit))),
+        })
+
+        return await self.request(
+            "GET",
+            f"/admin/users?{params}",
+        )
+
+    async def admin_set_user_status(
+        self,
+        user_id,
+        is_active,
+    ):
+        return await self.request(
+            "PATCH",
+            f"/admin/users/{int(user_id)}/status",
+            {
+                "is_active": bool(is_active),
+            },
         )

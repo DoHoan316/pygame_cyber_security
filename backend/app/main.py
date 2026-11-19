@@ -18,6 +18,8 @@ from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import select, func, desc
 from sqlalchemy.exc import IntegrityError
 
+from dotenv import load_dotenv
+
 from .database import Base, engine, get_db, SessionLocal
 from .models import User, Campaign, Scenario, Choice, GameSession, ChoiceHistory
 from .security import (
@@ -97,17 +99,54 @@ app.mount(
 # CORS CONFIGURATION
 # =========================================================
 
-origins = os.getenv(
+# Do not overwrite Render's environment variables with values from the
+# repository's .env file. database.py also loads .env with override=False.
+load_dotenv(PROJECT_DIR / ".env", override=False)
+
+
+def _parse_csv_env(name: str, default: str = "") -> list[str]:
+    """Read comma-separated environment values without empty entries."""
+    raw_value = os.getenv(name, default)
+    return [
+        item.strip().rstrip("/")
+        for item in raw_value.split(",")
+        if item.strip()
+    ]
+
+
+# Include the exact deployed Pygbag page origin in CORS_ORIGINS on Render.
+# Example:
+# CORS_ORIGINS=https://your-game.onrender.com,https://yourname.github.io
+# Local development origins are retained as safe defaults.
+DEFAULT_CORS_ORIGINS = (
+    "http://localhost:5173,"
+    "http://127.0.0.1:5173,"
+    "http://localhost:8000,"
+    "http://127.0.0.1:8000,"
+    "http://localhost:8666,"
+    "http://127.0.0.1:8666"
+)
+
+cors_origins = _parse_csv_env(
     "CORS_ORIGINS",
-    "http://localhost:5173,http://127.0.0.1:5173,http://localhost:8000",
-).split(",")
+    DEFAULT_CORS_ORIGINS,
+)
+
+# Optional regex for deployments whose origin is dynamic.
+# Keep this empty unless you deliberately need a trusted origin pattern.
+cors_origin_regex = os.getenv("CORS_ORIGIN_REGEX", "").strip() or None
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[origin.strip() for origin in origins if origin.strip()],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=cors_origins,
+    allow_origin_regex=cors_origin_regex,
+    # The game authenticates with an Authorization: Bearer header,
+    # not cross-site cookies. Credentials are therefore unnecessary.
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allow_headers=["Accept", "Authorization", "Content-Type"],
+    expose_headers=["Content-Length"],
+    max_age=600,
 )
 
 

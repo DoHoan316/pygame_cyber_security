@@ -34,6 +34,7 @@ class CyberSafeV3:
         self.selected_campaign = None; self.result_data = None
         self.message = "Đăng nhập hoặc tạo tài khoản để bắt đầu"
         self.busy = False; self.scroll = 0
+        self.task = None  # running network action; keeps the draw loop alive
 
     def text(self, value, x, y, color=WHITE, font=None):
         img = (font or self.font).render(str(value), True, color)
@@ -154,6 +155,22 @@ class CyberSafeV3:
             if exc.status == 401:
                 self.user = None
                 self.state = "AUTH"
+
+    def spawn(self, coro):
+        """Run a network action in the background so the game loop keeps drawing."""
+        if self.task is not None and not self.task.done():
+            coro.close()  # one action at a time; ignore extra clicks
+            return
+        self.task = asyncio.create_task(self._guard(coro))
+
+    async def _guard(self, coro):
+        try:
+            await coro
+        except APIError as exc:
+            self.message = str(exc)
+        except Exception as exc:
+            self.message = f"Lỗi: {exc}"
+            self.busy = False
 
     def draw_auth(self):
         self.base("ĐĂNG NHẬP CYBERSAFE", "Pygame-CE client · xác thực qua FastAPI V3")
@@ -294,7 +311,7 @@ class CyberSafeV3:
             self.message = str(exc)
 
     async def run(self):
-        await self.restore_auth()
+        self.spawn(self.restore_auth())
         running=True
         while running:
             self.draw()
@@ -303,10 +320,10 @@ class CyberSafeV3:
                 elif event.type == pygame.VIDEORESIZE:
                     self.screen=pygame.display.set_mode(event.size, pygame.RESIZABLE)
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    await self.click(event.pos)
+                    self.spawn(self.click(event.pos))
                 elif event.type == pygame.KEYDOWN and self.state == "AUTH":
                     if event.key == pygame.K_TAB: self.focus=(self.focus+1)%(3 if self.auth_mode=="register" else 2)
-                    elif event.key == pygame.K_RETURN: await self.auth_submit()
+                    elif event.key == pygame.K_RETURN: self.spawn(self.auth_submit())
                     elif event.key == pygame.K_BACKSPACE: self.fields[self.focus]=self.fields[self.focus][:-1]
                     elif event.unicode.isprintable() and len(self.fields[self.focus])<120: self.fields[self.focus]+=event.unicode
             pygame.display.flip(); self.clock.tick(30); await asyncio.sleep(0)

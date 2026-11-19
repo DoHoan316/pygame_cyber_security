@@ -223,13 +223,13 @@ Game sẽ mở thành cửa sổ riêng trên máy tính.
 Mở Terminal mới tại thư mục gốc:
 
 ```powershell
-.\.venv\Scripts\python.exe -m pygbag --port 8001 .\game_client
+.\.venv\Scripts\python.exe -m pygbag --port 8666 .\game_client
 ```
 
 Sau khi máy chủ Pygbag khởi động, mở trình duyệt:
 
 ```text
-http://localhost:8001
+http://localhost:8666
 ```
 
 Lưu ý: Pygbag đóng gói ứng dụng Pygame thành nội dung chạy trên trình duyệt bằng WebAssembly. Cần kiểm tra thực tế việc tải game, font, tài nguyên, đăng nhập và gọi API từ trình duyệt trước khi xác nhận bản Web đã hoạt động hoàn chỉnh.
